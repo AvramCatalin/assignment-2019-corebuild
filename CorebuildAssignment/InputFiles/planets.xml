@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<planets>
+    <planet>
+        <description>Earth-616, Home of the Avengers, also you.</description>
+        <id>1</id>
+        <modifiers>
+            <heroAttackModifier>10</heroAttackModifier>
+            <heroHealthModifier>30</heroHealthModifier>
+            <villainAttackModifier>-20</villainAttackModifier>
+            <villainHealthModifier>-10</villainHealthModifier>
+        </modifiers>
+        <name>Earth</name>
+    </planet>
+    <planet>
+        <description>One of the Nine Worlds and home to the Æsir tribe of gods.</description>
+        <id>2</id>
+        <modifiers>
+            <heroAttackModifier>25</heroAttackModifier>
+            <heroHealthModifier>10</heroHealthModifier>
+            <villainAttackModifier>10</villainAttackModifier>
+            <villainHealthModifier>10</villainHealthModifier>
+        </modifiers>
+        <name>Asgard</name>
+    </planet>
+    <planet>
+        <description>Home of the Xandarians and the headquarters of the Nova Corps.</description>
+        <id>3</id>
+        <modifiers>
+            <heroAttackModifier>20</heroAttackModifier>
+            <heroHealthModifier>10</heroHealthModifier>
+            <villainAttackModifier>20</villainAttackModifier>
+            <villainHealthModifier>10</villainHealthModifier>
+        </modifiers>
+        <name>Xandar</name>
+    </planet>
+    <planet>
+        <description>A desert planet known for its black market.</description>
+        <id>4</id>
+        <modifiers>
+            <heroAttackModifier>0</heroAttackModifier>
+            <heroHealthModifier>10</heroHealthModifier>
+            <villainAttackModifier>-10</villainAttackModifier>
+            <villainHealthModifier>-10</villainHealthModifier>
+        </modifiers>
+        <name>Conjunction</name>
+    </planet>
+    <planet>
+        <description> A planet with floating pyramids known as the Cloud Tombs of Praxius.</description>
+        <id>5</id>
+        <modifiers>
+            <heroAttackModifier>10</heroAttackModifier>
+            <heroHealthModifier>10</heroHealthModifier>
+            <villainAttackModifier>10</villainAttackModifier>
+            <villainHealthModifier>10</villainHealthModifier>
+        </modifiers>
+        <name>Praxius IX</name>
+    </planet>
+</planets>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters>
+    <character>
+        <attack>10</attack>
+        <description>Make America great again</description>
+        <health>100</health>
+        <id>1</id>
+        <isVillain>false</isVillain>
+        <name>Captain America</name>
+    </character>
+    <character>
+        <attack>100</attack>
+        <description>The Most Powerful Being in the Universe</description>
+        <health>300</health>
+        <id>2</id>
+        <isVillain>true</isVillain>
+        <name>Thanos</name>
+    </character>
+    <character>
+        <attack>70</attack>
+        <description>One of the universe's most powerful heroes</description>
+        <health>200</health>
+        <id>3</id>
+        <isVillain>false</isVillain>
+        <name>Captain Marvel</name>
+    </character>
+    <character>
+        <attack>30</attack>
+        <description>Prince of Asgard, Odinson, the rightful King of Jotunheim, God of Mischief</description>
+        <health>150</health>
+        <id>4</id>
+        <isVillain>true</isVillain>
+        <name>Loki</name>
+    </character>
+    <character>
+        <attack>40</attack>
+        <description>The blood-son of Odin, All-Father of the Asgardians</description>
+        <health>150</health>
+        <id>5</id>
+        <isVillain>false</isVillain>
+        <name>Thor</name>
+    </character>
+    <character>
+        <attack>20</attack>
+        <description>Step-brother of X-Men founder Charles Xavier and the avatar of Cyttorak</description>
+        <health>300</health>
+        <id>6</id>
+        <isVillain>true</isVillain>
+        <name>Juggernaut</name>
+    </character>
+    <character>
+        <attack>25</attack>
+        <description>Tony Stark, a wealthy American business magnate, playboy, and ingenious scientist</description>
+        <health>180</health>
+        <id>7</id>
+        <isVillain>false</isVillain>
+        <name>Iron-Man</name>
+    </character>
+    <character>
+        <attack>20</attack>
+        <description>T'Challa, king and protector of Wakanda</description>
+        <health>180</health>
+        <id>8</id>
+        <isVillain>false</isVillain>
+        <name>Black Panther</name>
+    </character>
+</characters>
