@@ -45,7 +45,7 @@
         <name>Conjunction</name>
     </planet>
     <planet>
-        <description> A planet with floating pyramids known as the Cloud Tombs of Praxius.</description>
+        <description>A planet with floating pyramids known as the Cloud Tombs of Praxius.</description>
         <id>5</id>
         <modifiers>
             <heroAttackModifier>10</heroAttackModifier>

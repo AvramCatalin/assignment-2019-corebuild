@@ -8,25 +8,75 @@ namespace CorebuildAssignment
     {
         static readonly string workingDirectory = Environment.CurrentDirectory;
         static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-
+        private int idSelectedPlanet;
         public void PlanetSelector()
         {
             Planets planets;
-            XmlSerializer serializer2 = new XmlSerializer(typeof(Planets));
+            XmlSerializer serializer = new XmlSerializer(typeof(Planets));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\planets.xml", FileMode.Open))
             {
-                planets = (Planets)serializer2.Deserialize(fileStream);
+                planets = (Planets)serializer.Deserialize(fileStream);
             }
-            foreach (Planet planet in planets.Planet)
+            bool whileRunner = true;
+            while (whileRunner)
             {
-                Console.WriteLine(planet.Id + " " + planet.Name + " " + planet.Description + " ");
-
-                foreach (Modifiers modifiers in planet.Modifiers)
+                idSelectedPlanet = 0;
+                foreach (Planet planet in planets.Planet)
                 {
-                    Console.WriteLine(modifiers.HeroAttackModifier + " " + modifiers.HeroHealthModifier + " " + modifiers.VillainAttackModifier + " " + modifiers.VillainHealthModifier);
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(planet.Id);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine(" " + planet.Name);
+                    Console.ResetColor();
+                    Console.WriteLine(planet.Description);
+                }
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("\nSelect a Planet: ");
+                Console.ResetColor();
+                try
+                {
+                    idSelectedPlanet = int.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Wrong type of value given!\nExpected Integer!");
+                    Console.ReadLine();
+                    Console.Clear();
+                }
+                finally
+                {
+                    if (idSelectedPlanet >= 1 && idSelectedPlanet <= 5)
+                    {
+                        whileRunner = false;
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        if (idSelectedPlanet == 0)
+                        {
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("No planet of id = " + idSelectedPlanet + " was found");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+                    }
                 }
             }
-            Console.ReadKey();
+            /*
+              foreach (Modifiers modifiers in planet.Modifiers)
+              {
+                 Console.WriteLine(modifiers.HeroAttackModifier + " " + modifiers.HeroHealthModifier + " " + modifiers.VillainAttackModifier + " " + modifiers.VillainHealthModifier);
+              }
+           */
+
+
         }
         public void VillainSelector()
         {
