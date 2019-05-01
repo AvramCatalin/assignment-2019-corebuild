@@ -17,7 +17,7 @@ After this the fight begins, and the villain and hero attack turn by turn until 
 The damage that a character does each round is random, and it varies from 60% to 100% of his attack stats.
 
 BONUS REQUIREMENT(optional):
-Since most villains are more powerful than heroes, you could allow the user to create an 'Avengers' team, that contain multiple heroes to defend a villain.
+Since most villains are more powerful than heroes, you could allow the user to create an 'Avengers' team, that contain multiple heroes to defeat a villain.
 
 
 
