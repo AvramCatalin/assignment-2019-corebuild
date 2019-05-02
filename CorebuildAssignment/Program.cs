@@ -10,6 +10,7 @@ namespace CorebuildAssignment
             Arena arena = new Arena();
             arena.PlanetSelector();
             arena.VillainSelector();
+            arena.HeroSelector();
         }
     }
 }
