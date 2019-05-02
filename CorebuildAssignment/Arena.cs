@@ -9,7 +9,7 @@ namespace CorebuildAssignment
         static readonly string workingDirectory = Environment.CurrentDirectory;
         static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
         private byte idSelectedPlanet;
-        //private byte[] idSelectedHero; 
+        //private byte[] idSelectedHeroes; 
         private byte idSelectedVillain;
         private static Planets planets;
         private static Characters characters;
@@ -248,8 +248,69 @@ namespace CorebuildAssignment
                     }
                     if (characterFound)
                     {
-                        //show more details
-                        whileRunner = false;
+                        bool whileRunner2 = true;
+                        while (whileRunner2)
+                        {
+                            bool errorGiven2 = false;
+                            byte option = 0;
+                            CharacterDetails(idSelectedVillain);
+
+                            Console.WriteLine("\nOptions: ");
+                            Console.BackgroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.Black;
+
+                            Console.Write("1");
+                            Console.ResetColor();
+                            Console.WriteLine(" Confirm selected Villain");
+                            Console.BackgroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.Black;
+
+                            Console.Write("2");
+                            Console.ResetColor();
+                            Console.WriteLine(" Go back to the selection menu");
+
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write("\nSelect an option: ");
+                            Console.ResetColor();
+                            try
+                            {
+                                option = byte.Parse(Console.ReadLine());
+                            }
+                            catch (Exception)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Wrong type of value given!\nExpected Byte!");
+                                errorGiven2 = true;
+                                Console.ReadLine();
+                                Console.Clear();
+                            }
+                            finally
+                            {
+                                if (option == 1)
+                                {
+                                    whileRunner2 = false;
+                                    whileRunner = false;
+                                }
+                                else
+                                {
+                                    if (option == 2)
+                                    {
+                                        whileRunner2 = false;
+                                        Console.Clear();
+                                    }
+                                    else
+                                    {
+                                        if (!errorGiven2)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("No option of value = " + option + " was found");
+                                            Console.ReadLine();
+                                            Console.Clear();
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     else
                     {
@@ -263,6 +324,24 @@ namespace CorebuildAssignment
                     }
                 }
             }
+        }
+        private void CharacterDetails(byte idSelectedCharacter)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Name);
+            Console.ResetColor();
+            Console.WriteLine(" \u2022 " + characters.Character[idSelectedCharacter - 1].Description);
+
+            Console.Write(" \u00BB " + "Attack points: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Attack);
+            Console.ResetColor();
+
+            Console.Write(" \u00BB " + "Health points: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Health);
+            Console.ResetColor();
         }
         public void HeroSelector()
         {

@@ -8,7 +8,7 @@ namespace CorebuildAssignment
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Arena arena = new Arena();
-            //arena.PlanetSelector();
+            arena.PlanetSelector();
             arena.VillainSelector();
         }
     }
