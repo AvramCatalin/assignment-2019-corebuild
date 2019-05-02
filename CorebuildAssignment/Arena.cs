@@ -8,12 +8,14 @@ namespace CorebuildAssignment
     {
         static readonly string workingDirectory = Environment.CurrentDirectory;
         static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-        private int idSelectedPlanet;
+        private byte idSelectedPlanet;
+        //private byte[] idSelectedHero; 
+        private byte idSelectedVillain;
         private static Planets planets;
+        private static Characters characters;
 
         public void PlanetSelector()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
             XmlSerializer serializer = new XmlSerializer(typeof(Planets));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\planets.xml", FileMode.Open))
             {
@@ -22,6 +24,10 @@ namespace CorebuildAssignment
             bool whileRunner = true;
             while (whileRunner)
             {
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Planet Selector\n");
+
                 bool errorGiven = false;
                 idSelectedPlanet = 0;
                 foreach (Planet planet in planets.Planet)
@@ -40,12 +46,12 @@ namespace CorebuildAssignment
                 Console.ResetColor();
                 try
                 {
-                    idSelectedPlanet = int.Parse(Console.ReadLine());
+                    idSelectedPlanet = byte.Parse(Console.ReadLine());
                 }
                 catch (Exception)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong type of value given!\nExpected Integer!");
+                    Console.WriteLine("Wrong type of value given!\nExpected Byte");
                     errorGiven = true;
                     Console.ReadLine();
                     Console.Clear();
@@ -58,7 +64,7 @@ namespace CorebuildAssignment
                         while (whileRunner2)
                         {
                             bool errorGiven2 = false;
-                            int option = 0;
+                            byte option = 0;
                             ModifierWriter();
 
                             Console.WriteLine("\nOptions: ");
@@ -80,12 +86,12 @@ namespace CorebuildAssignment
                             Console.ResetColor();
                             try
                             {
-                                option = int.Parse(Console.ReadLine());
+                                option = byte.Parse(Console.ReadLine());
                             }
                             catch (Exception)
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Wrong type of value given!\nExpected Integer!");
+                                Console.WriteLine("Wrong type of value given!\nExpected Byte!");
                                 errorGiven2 = true;
                                 Console.ReadLine();
                                 Console.Clear();
@@ -183,15 +189,79 @@ namespace CorebuildAssignment
         }
         public void VillainSelector()
         {
-            Characters characters;
             XmlSerializer serializer = new XmlSerializer(typeof(Characters));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
             {
                 characters = (Characters)serializer.Deserialize(fileStream);
             }
-            foreach (Character character in characters.Character)
+
+            bool whileRunner = true;
+            while(whileRunner)
             {
-                Console.WriteLine(character.Id + " " + character.Name + " " + character.Description + " " + character.Health + " " + character.Attack + " " + character.IsVillain);
+                idSelectedVillain = 0;
+                bool errorGiven = false;
+
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Villain Selector\n");
+
+                foreach (Character character in characters.Character)
+                {
+                    if (character.IsVillain)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(character.Id);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine(" " + character.Name);
+                        Console.ResetColor();
+                        Console.WriteLine(" \u2022 " + character.Description);
+                    }
+
+                }
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("\nSelect a villain: ");
+                Console.ResetColor();
+                try
+                {
+                    idSelectedVillain = byte.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Wrong type of value given!\nExpected Byte");
+                    errorGiven = true;
+                    Console.ReadLine();
+                    Console.Clear();
+                }
+                finally
+                {
+                    bool characterFound = false;
+                    foreach (Character character in characters.Character)
+                    {
+                        if (character.Id == idSelectedVillain && character.IsVillain)
+                        {
+                            characterFound = true;
+                        }
+                    }
+                    if (characterFound)
+                    {
+                        //show more details
+                        whileRunner = false;
+                    }
+                    else
+                    {
+                        if(!errorGiven)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("No villain found of id = " + idSelectedVillain);
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+                    }
+                }
             }
         }
         public void HeroSelector()

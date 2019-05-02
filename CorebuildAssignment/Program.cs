@@ -1,11 +1,15 @@
-﻿namespace CorebuildAssignment
+﻿using System;
+
+namespace CorebuildAssignment
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Arena arena = new Arena();
-            arena.PlanetSelector();
+            //arena.PlanetSelector();
+            arena.VillainSelector();
         }
     }
 }

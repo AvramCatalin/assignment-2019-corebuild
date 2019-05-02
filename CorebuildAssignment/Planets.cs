@@ -15,7 +15,7 @@ namespace CorebuildAssignment
         public string Description { get; set; }
 
         [XmlElement("id")]
-        public int Id { get; set; }
+        public byte Id { get; set; }
 
         [XmlElement("modifiers")]
         public Modifiers Modifiers { get; set; }
@@ -26,15 +26,15 @@ namespace CorebuildAssignment
     public class Modifiers
     {
         [XmlElement("heroAttackModifier")]
-        public int HeroAttackModifier { get; set; }
+        public sbyte HeroAttackModifier { get; set; }
 
         [XmlElement("heroHealthModifier")]
-        public int HeroHealthModifier { get; set; }
+        public sbyte HeroHealthModifier { get; set; }
 
         [XmlElement("villainAttackModifier")]
-        public int VillainAttackModifier { get; set; }
+        public sbyte VillainAttackModifier { get; set; }
 
         [XmlElement("villainHealthModifier")]
-        public int VillainHealthModifier { get; set; }
+        public sbyte VillainHealthModifier { get; set; }
     }
 }

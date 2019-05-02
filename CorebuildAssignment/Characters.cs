@@ -12,16 +12,16 @@ namespace CorebuildAssignment
     public class Character
     {
         [XmlElement("attack")]
-        public int Attack { get; set; }
+        public short Attack { get; set; }
 
         [XmlElement("description")]
         public string Description { get; set; }
 
         [XmlElement("health")]
-        public int Health { get; set; }
+        public short Health { get; set; }
 
         [XmlElement("id")]
-        public int Id { get; set; }
+        public byte Id { get; set; }
 
         [XmlElement("isVillain")]
         public bool IsVillain { get; set; }
