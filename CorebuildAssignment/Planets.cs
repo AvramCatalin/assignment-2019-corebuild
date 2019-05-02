@@ -18,7 +18,7 @@ namespace CorebuildAssignment
         public int Id { get; set; }
 
         [XmlElement("modifiers")]
-        public List<Modifiers> Modifiers { get; set; }
+        public Modifiers Modifiers { get; set; }
 
         [XmlElement("name")]
         public string Name { get; set; }
