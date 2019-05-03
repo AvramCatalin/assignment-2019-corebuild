@@ -10,12 +10,12 @@ namespace CorebuildAssignment
     {
         private static readonly string workingDirectory = Environment.CurrentDirectory;
         private static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-        private byte idSelectedPlanet;
-        private byte idSelectedHero;
-        private byte idSelectedVillain;
-        private static Planets planets;
-        private static Characters characters;
-        private static List<Character> avengersList = new List<Character>();
+        private byte idSelectedPlanet=0;
+        private byte idSelectedHero=0;
+        private byte idSelectedVillain=0;
+        private Planets planets;
+        private Characters characters;
+        private List<Character> avengersList = new List<Character>();
 
         private void OptionSelector(string dataName)
         {
@@ -29,7 +29,6 @@ namespace CorebuildAssignment
                 Console.ResetColor();
 
                 bool errorGiven = false;
-                idSelectedPlanet = 0;
                 if (dataName == "Planet")
                 {
                     foreach (Planet planet in planets.Planet)
@@ -150,7 +149,7 @@ namespace CorebuildAssignment
                             byte option = 0;
                             if (dataName == "Planet")
                             {
-                                ModifierWriter();
+                                PlanetDetails();
                             }
                             else
                             {
@@ -172,21 +171,14 @@ namespace CorebuildAssignment
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.Write("1");
                             Console.ResetColor();
-                            if (dataName == "Hero")
-                            {
-                                Console.WriteLine(" Start the fight with the selected " + dataName.ToLower());
-                            }
-                            else
-                            {
-                                Console.WriteLine(" Confirm selected " + dataName.ToLower());
-                            }
+                            Console.WriteLine(" Confirm selected " + dataName.ToLower());
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.Write("2");
                             Console.ResetColor();
                             Console.WriteLine(" Go back to the selection menu");
 
-                            if (dataName == "Hero")
+                            if (dataName == "Avangers")
                             {
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
@@ -205,12 +197,6 @@ namespace CorebuildAssignment
                                 Console.Write("5");
                                 Console.ResetColor();
                                 Console.WriteLine(" Clear the Avengers team");
-
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write("6");
-                                Console.ResetColor();
-                                Console.WriteLine(" Start the fight with the Avengers team");
                             }
 
                             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -235,7 +221,7 @@ namespace CorebuildAssignment
                                     case 1:
                                         whileRunner2 = false;
                                         whileRunner = false;
-                                        if (dataName == "Hero")
+                                        if (dataName == "Avengers")
                                         {
                                             avengersList.Clear();
                                             AddHeroToAvengers(idSelectedHero,true);
@@ -249,7 +235,7 @@ namespace CorebuildAssignment
                                         Console.Clear();
                                         break;
                                     case 3:
-                                        if (dataName == "Hero")
+                                        if (dataName == "Avengers")
                                         {
                                             AddHeroToAvengers(idSelectedHero,false);
                                         }
@@ -259,7 +245,7 @@ namespace CorebuildAssignment
                                         }
                                         break;
                                     case 4:
-                                        if (dataName == "Hero")
+                                        if (dataName == "Avengers")
                                         {
                                             ShowAvengersTeam();
                                         }
@@ -269,34 +255,12 @@ namespace CorebuildAssignment
                                         }
                                         break;
                                     case 5:
-                                        if (dataName == "Hero")
+                                        if (dataName == "Avengers")
                                         {
                                             avengersList.Clear();
                                             Console.ForegroundColor = ConsoleColor.Green;
                                             Console.Write("\nAvengers team was cleared!");
                                             Console.ReadLine();
-                                        }
-                                        else
-                                        {
-                                            goto default;
-                                        }
-                                        break;
-                                    case 6:
-                                        if (dataName == "Hero")
-                                        {
-                                            if (!avengersList.Any())
-                                            {
-                                                goto case 4;
-                                            }
-                                            else
-                                            {
-                                                whileRunner2 = false;
-                                                whileRunner = false;
-                                                Console.ForegroundColor = ConsoleColor.Green;
-                                                Console.Write("\nAvengers assemble!");
-                                                Console.ReadLine();
-                                            }
-                                            
                                         }
                                         else
                                         {
@@ -332,6 +296,8 @@ namespace CorebuildAssignment
         }
         public void PlanetSelector()
         {
+            Console.Clear();
+            idSelectedPlanet = 0;
             XmlSerializer serializer = new XmlSerializer(typeof(Planets));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\planets.xml", FileMode.Open))
             {
@@ -339,7 +305,7 @@ namespace CorebuildAssignment
             }
             OptionSelector("Planet");
         }
-        private void ModifierWriter()
+        private void PlanetDetails()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -391,6 +357,8 @@ namespace CorebuildAssignment
         }
         public void VillainSelector()
         {
+            Console.Clear();
+            idSelectedVillain = 0;
             XmlSerializer serializer = new XmlSerializer(typeof(Characters));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
             {
@@ -418,11 +386,22 @@ namespace CorebuildAssignment
         }
         public void HeroSelector()
         {
+            Console.Clear();
+            idSelectedHero = 0;
+            XmlSerializer serializer = new XmlSerializer(typeof(Characters));
+            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
+            {
+                characters = (Characters)serializer.Deserialize(fileStream);
+            }
             OptionSelector("Hero");
+        }
+        public void AvangersTeam()
+        {
+            Console.Clear();
         }
         public void Fight()
         {
-
+            Console.Clear();
         }
         private void AddHeroToAvengers(byte idHeroToAdd,bool silentMode)
         {
@@ -479,21 +458,49 @@ namespace CorebuildAssignment
             }
             Console.ReadLine();
         }
-        public static bool PlanetChecker()
+        public string PlanetChecker()
         {
-            return true;
+            if(idSelectedPlanet!= 0)
+            {
+                return planets.Planet[idSelectedPlanet - 1].Name;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public static bool VillainChecker()
+        public string VillainChecker()
         {
-            return true;
+            if (idSelectedVillain != 0)
+            {
+                return characters.Character[idSelectedVillain - 1].Name;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public static bool HeroChecker()
+        public string HeroChecker()
         {
-            return true;
+            if (idSelectedHero != 0)
+            {
+                return characters.Character[idSelectedHero - 1].Name;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public static bool AvengersChecker()
+        public bool AvengersChecker()
         {
-            return true;
+            if (avengersList.Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CorebuildAssignment
     class Program
     {
         private static Arena arena = new Arena();
-
+        private static bool errorGiven = false;
         private static void StartUpLogo()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -19,9 +19,9 @@ namespace CorebuildAssignment
             Console.WriteLine(@"                                           |_| ");
         }
 
-        private static void MainSelectionMenu()
+        private static byte MainSelectionMenu()
         {
-
+            string temporaryName = null;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(" Main menu options: \n");
             Console.Write(" ");
@@ -48,15 +48,58 @@ namespace CorebuildAssignment
                 {
                     case 1:
                         Console.WriteLine(" Planet");
+                        temporaryName = arena.PlanetChecker();
+                        if (temporaryName != null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("     \u00BB "+ temporaryName + " selected!");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
                         goto default;
                     case 2:
+                        temporaryName = arena.VillainChecker();
                         Console.WriteLine(" Villain");
+                        if (temporaryName != null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("     \u00BB "+ temporaryName + " selected!");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
                         goto default;
                     case 3:
+                        temporaryName = arena.HeroChecker();
                         Console.WriteLine(" Hero");
+                        if (temporaryName != null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("     \u00BB " + temporaryName + " selected!");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
                         goto default;
                     case 4:
                         Console.WriteLine(" Avengers Team");
+                        if (arena.AvengersChecker())
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("     \u00BB Avengers Team assembled!");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
                         goto default;
                     case 5:
                         Console.WriteLine(" Fight");
@@ -65,7 +108,7 @@ namespace CorebuildAssignment
                         Console.Write(" ");
                         Console.BackgroundColor = ConsoleColor.Yellow;
                         Console.ForegroundColor = ConsoleColor.Black;
-                        if(i<=4)
+                        if (i <= 4)
                         {
                             Console.Write(i + 1);
                         }
@@ -76,6 +119,20 @@ namespace CorebuildAssignment
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("\n Select an option (number) : ");
             Console.ResetColor();
+            byte option=0;
+            try
+            {
+                option = byte.Parse(Console.ReadLine());
+            }
+            catch (Exception)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong type of value given!\nExpected Byte");
+                errorGiven = true;
+                Console.ReadLine();
+                Console.Clear();
+            }
+            return option;
         }
         static void Main()
         {
@@ -83,13 +140,34 @@ namespace CorebuildAssignment
             Console.WindowWidth = 118; //max is 240
             Console.WindowHeight = 30; //max is 63
 
-            StartUpLogo();
-            MainSelectionMenu();
-
-            //arena.PlanetSelector();
-            //arena.VillainSelector();
-            //arena.HeroSelector();
-            Console.ReadLine();
+            while(true)
+            {
+                StartUpLogo();
+                byte option = MainSelectionMenu();
+                if (!errorGiven)
+                {
+                    switch (option)
+                    {
+                        case 1:
+                            arena.PlanetSelector();
+                            break;
+                        case 2:
+                            arena.VillainSelector();
+                            break;
+                        case 3:
+                            arena.HeroSelector();
+                            break;
+                        case 4:
+                            arena.AvangersTeam();
+                            break;
+                        case 5:
+                            arena.Fight();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
     }
 }
