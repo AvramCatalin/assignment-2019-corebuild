@@ -10,14 +10,14 @@ namespace CorebuildAssignment
     {
         private static readonly string workingDirectory = Environment.CurrentDirectory;
         private static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-        private byte idSelectedPlanet=0;
-        private byte idSelectedHero=0;
-        private byte idSelectedVillain=0;
+        private byte idSelectedPlanet = 0;
+        private byte idSelectedHero = 0;
+        private byte idSelectedVillain = 0;
         private Planets planets;
         private Characters characters;
         private List<Character> avengersList = new List<Character>();
 
-        private void OptionSelector(string dataName)
+        private void OptionSelector(string dataName, bool multiple)
         {
             bool whileRunner = true;
             while (whileRunner)
@@ -52,6 +52,7 @@ namespace CorebuildAssignment
                         {
                             if (character.IsVillain)
                             {
+                                Console.Write(" ");
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
                                 Console.Write(character.Id);
@@ -69,6 +70,7 @@ namespace CorebuildAssignment
                         {
                             if (!character.IsVillain)
                             {
+                                Console.Write(" ");
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
                                 Console.Write(character.Id);
@@ -134,7 +136,6 @@ namespace CorebuildAssignment
                                     if (character.Id == idSelectedEntity && !character.IsVillain)
                                     {
                                         entityFound = true;
-                                        idSelectedHero = idSelectedEntity;
                                     }
                                 }
                             }
@@ -155,13 +156,13 @@ namespace CorebuildAssignment
                             {
                                 if (dataName == "Villain")
                                 {
-                                    CharacterDetails(idSelectedVillain);
+                                    CharacterDetails(idSelectedEntity);
                                 }
                                 else
                                 {
                                     if (dataName == "Hero")
                                     {
-                                        CharacterDetails(idSelectedHero);
+                                        CharacterDetails(idSelectedEntity);
                                     }
                                 }
                             }
@@ -169,34 +170,42 @@ namespace CorebuildAssignment
                             Console.WriteLine("\nOptions: ");
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
-                            Console.Write("1");
-                            Console.ResetColor();
-                            Console.WriteLine(" Confirm selected " + dataName.ToLower());
+                            if (dataName == "Hero" && multiple)
+                            {
+                                Console.Write("1");
+                                Console.ResetColor();
+                                Console.WriteLine(" Add to the Avengers team");
+                            }
+                            else
+                            {
+                                Console.Write("1");
+                                Console.ResetColor();
+                                Console.WriteLine(" Confirm selected " + dataName.ToLower());
+                            }
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.Write("2");
                             Console.ResetColor();
                             Console.WriteLine(" Go back to the selection menu");
-
-                            if (dataName == "Avangers")
+                            if (dataName == "Hero" && multiple)
                             {
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
                                 Console.Write("3");
                                 Console.ResetColor();
-                                Console.WriteLine(" Add to Avengers team");
+                                Console.WriteLine(" Show the Avengers team");
 
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
                                 Console.Write("4");
                                 Console.ResetColor();
-                                Console.WriteLine(" Show Avengers team");
+                                Console.WriteLine(" Clear the Avengers team");
 
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
                                 Console.Write("5");
                                 Console.ResetColor();
-                                Console.WriteLine(" Clear the Avengers team");
+                                Console.WriteLine(" Confirm Avengers Team");
                             }
 
                             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -219,33 +228,27 @@ namespace CorebuildAssignment
                                 switch (option)
                                 {
                                     case 1:
-                                        whileRunner2 = false;
-                                        whileRunner = false;
-                                        if (dataName == "Avengers")
+                                        if (dataName == "Hero" && multiple)
                                         {
-                                            avengersList.Clear();
-                                            AddHeroToAvengers(idSelectedHero,true);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("\nStarting the fight with the selected hero!");
-                                            Console.ReadLine();
+                                            AddHeroToAvengers(idSelectedEntity);
                                         }
+                                        else
+                                        {
+                                            if (dataName == "Hero" && !multiple)
+                                            {
+                                                idSelectedHero = idSelectedEntity;
+                                            }
+                                            whileRunner2 = false;
+                                            whileRunner = false;
+                                        }
+
                                         break;
                                     case 2:
                                         whileRunner2 = false;
                                         Console.Clear();
                                         break;
                                     case 3:
-                                        if (dataName == "Avengers")
-                                        {
-                                            AddHeroToAvengers(idSelectedHero,false);
-                                        }
-                                        else
-                                        {
-                                            goto default;
-                                        }
-                                        break;
-                                    case 4:
-                                        if (dataName == "Avengers")
+                                        if (dataName == "Hero" && multiple)
                                         {
                                             ShowAvengersTeam();
                                         }
@@ -254,13 +257,33 @@ namespace CorebuildAssignment
                                             goto default;
                                         }
                                         break;
-                                    case 5:
-                                        if (dataName == "Avengers")
+                                    case 4:
+                                        if (dataName == "Hero" && multiple)
                                         {
-                                            avengersList.Clear();
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.Write("\nAvengers team was cleared!");
-                                            Console.ReadLine();
+                                            if(avengersList.Any())
+                                            {
+                                                avengersList.Clear();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.Write("\nThe Avengers team was cleared!");
+                                                Console.ReadLine();
+                                            }
+                                            else
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.Write("\nThe Avengers team is already empty!");
+                                                Console.ReadLine();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            goto default;
+                                        }
+                                        break;
+                                    case 5:
+                                        if (dataName == "Hero" && multiple)
+                                        {
+                                            whileRunner2 = false;
+                                            whileRunner = false;
                                         }
                                         else
                                         {
@@ -303,7 +326,7 @@ namespace CorebuildAssignment
             {
                 planets = (Planets)serializer.Deserialize(fileStream);
             }
-            OptionSelector("Planet");
+            OptionSelector("Planet", false);
         }
         private void PlanetDetails()
         {
@@ -364,7 +387,7 @@ namespace CorebuildAssignment
             {
                 characters = (Characters)serializer.Deserialize(fileStream);
             }
-            OptionSelector("Villain");
+            OptionSelector("Villain", false);
         }
         private void CharacterDetails(byte idSelectedCharacter)
         {
@@ -393,17 +416,23 @@ namespace CorebuildAssignment
             {
                 characters = (Characters)serializer.Deserialize(fileStream);
             }
-            OptionSelector("Hero");
+            OptionSelector("Hero", false);
         }
         public void AvangersTeam()
         {
+            XmlSerializer serializer = new XmlSerializer(typeof(Characters));
+            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
+            {
+                characters = (Characters)serializer.Deserialize(fileStream);
+            }
             Console.Clear();
+            OptionSelector("Hero", true);
         }
         public void Fight()
         {
             Console.Clear();
         }
-        private void AddHeroToAvengers(byte idHeroToAdd,bool silentMode)
+        private void AddHeroToAvengers(byte idHeroToAdd)
         {
             bool heroExists = false;
             foreach (Character hero in avengersList)
@@ -413,7 +442,7 @@ namespace CorebuildAssignment
                     heroExists = true;
                 }
             }
-            if(!heroExists)
+            if (!heroExists)
             {
                 foreach (Character character in characters.Character)
                 {
@@ -422,12 +451,9 @@ namespace CorebuildAssignment
                         avengersList.Add(character);
                     }
                 }
-                if(!silentMode)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nHero added succesfully!");
-                    Console.ReadLine();
-                }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("\nHero added succesfully!");
+                Console.ReadLine();
             }
             else
             {
@@ -437,7 +463,7 @@ namespace CorebuildAssignment
             }
         }
         private void ShowAvengersTeam()
-        {  
+        {
             Console.WriteLine();
             if (!avengersList.Any())
             {
@@ -450,7 +476,7 @@ namespace CorebuildAssignment
                 foreach (Character character in avengersList)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write(i+") ");
+                    Console.Write(i + ") ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(character.Name);
                     i++;
@@ -460,7 +486,7 @@ namespace CorebuildAssignment
         }
         public string PlanetChecker()
         {
-            if(idSelectedPlanet!= 0)
+            if (idSelectedPlanet != 0)
             {
                 return planets.Planet[idSelectedPlanet - 1].Name;
             }

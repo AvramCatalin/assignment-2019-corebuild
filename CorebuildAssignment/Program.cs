@@ -37,7 +37,7 @@ namespace CorebuildAssignment
                 }
                 if(i==4)
                 {
-                    Console.Write(" Build an");
+                    Console.Write(" Build the");
                 }
                 if (i==5)
                 {
@@ -139,10 +139,10 @@ namespace CorebuildAssignment
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WindowWidth = 118; //max is 240
             Console.WindowHeight = 30; //max is 63
-
             while(true)
             {
                 StartUpLogo();
+                errorGiven = false;
                 byte option = MainSelectionMenu();
                 if (!errorGiven)
                 {
@@ -164,6 +164,7 @@ namespace CorebuildAssignment
                             arena.Fight();
                             break;
                         default:
+                            Console.Clear();
                             break;
                     }
                 }
