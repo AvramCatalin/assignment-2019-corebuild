@@ -22,9 +22,11 @@ namespace CorebuildAssignment
             bool whileRunner = true;
             while (whileRunner)
             {
+                Console.Write(" ");
                 Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.WriteLine(dataName + " Selector\n");
+                Console.ResetColor();
 
                 bool errorGiven = false;
                 idSelectedPlanet = 0;
@@ -32,6 +34,7 @@ namespace CorebuildAssignment
                 {
                     foreach (Planet planet in planets.Planet)
                     {
+                        Console.Write(" ");
                         Console.BackgroundColor = ConsoleColor.Yellow;
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(planet.Id);
@@ -81,7 +84,7 @@ namespace CorebuildAssignment
 
                 }
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("\nSelect a " + dataName.ToLower() + " : ");
+                Console.Write("\n Select a " + dataName.ToLower() + " : ");
                 Console.ResetColor();
                 byte idSelectedEntity = 0;
                 try
@@ -471,11 +474,26 @@ namespace CorebuildAssignment
                     Console.Write(i+") ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(character.Name);
-
                     i++;
                 }
             }
             Console.ReadLine();
+        }
+        public static bool PlanetChecker()
+        {
+            return true;
+        }
+        public static bool VillainChecker()
+        {
+            return true;
+        }
+        public static bool HeroChecker()
+        {
+            return true;
+        }
+        public static bool AvengersChecker()
+        {
+            return true;
         }
     }
 }
