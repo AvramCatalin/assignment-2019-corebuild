@@ -16,6 +16,9 @@ namespace CorebuildAssignment
         private Planets planets;
         private Characters characters;
         private List<Character> avengersList = new List<Character>();
+        private Planet fightingPlanet;
+        private Character fightingHero;
+        private Character fightingVillain;
 
         private void OptionSelector(string dataName, bool multiple)
         {
@@ -260,7 +263,7 @@ namespace CorebuildAssignment
                                     case 4:
                                         if (dataName == "Hero" && multiple)
                                         {
-                                            if(avengersList.Any())
+                                            if (avengersList.Any())
                                             {
                                                 avengersList.Clear();
                                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -428,9 +431,134 @@ namespace CorebuildAssignment
             Console.Clear();
             OptionSelector("Hero", true);
         }
-        public void Fight()
+        private void IdToObject(string objectName)
         {
+            if (objectName == "Planet")
+            {
+                foreach (Planet planet in planets.Planet)
+                {
+                    if (idSelectedPlanet == planet.Id)
+                    {
+                        fightingPlanet = planet;
+                    }
+                }
+            }
+            if (objectName == "Character")
+            {
+                foreach (Character character in characters.Character)
+                {
+                    if (idSelectedHero == character.Id)
+                    {
+                        fightingHero = character;
+                    }
+                    if (idSelectedVillain == character.Id)
+                    {
+                        fightingVillain = character;
+                    }
+                }
+            }
+        }
+        public void FightMenu()
+        {
+            if (idSelectedPlanet != 0 && idSelectedVillain != 0)
+            {
+                IdToObject("Planet");
+                IdToObject("Character");
+                while (true)
+                {
+                    Console.Clear();
+                    Console.Write("\n ");
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write("1");
+                    Console.ResetColor();
+                    Console.WriteLine(" Villain vs Hero\n");
+
+                    Console.Write(" ");
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write("2");
+                    Console.ResetColor();
+                    Console.WriteLine(" Villain vs Avengers\n");
+
+                    Console.Write(" ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(" Select an option: ");
+                    Console.ResetColor();
+
+                    byte option = 0;
+                    try
+                    {
+                        option = byte.Parse(Console.ReadLine());
+                    }
+                    catch (Exception)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Wrong type of value given!\nExpected Byte");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
+                    switch (option)
+                    {
+                        case 1:
+                            if (idSelectedHero != 0)
+                            {
+                                VillainVsHero();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write(" No hero selected!");
+                                Console.ReadLine();
+                                Console.Clear();
+                            }
+                            goto exit;
+                        case 2:
+                            if (avengersList.Any())
+                            {
+
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write(" Avengers team empty!");
+                                Console.ReadLine();
+                                Console.Clear();
+                            }
+                            goto exit;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(" No option of value: " + option + " found!");
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(" Please select a Planet and a Villain!");
+                Console.ReadLine();
+                Console.Clear();
+            }
+        exit:;
             Console.Clear();
+        }
+        private void VillainVsHero()
+        {
+            Console.WriteLine("Planet Modifiers Activated!");
+            fightingVillain.Health = (short)(fightingVillain.Health + fightingPlanet.Modifiers.VillainHealthModifier);
+            fightingVillain.Attack = (short)(fightingVillain.Attack + fightingPlanet.Modifiers.VillainAttackModifier);
+            fightingHero.Health = (short)(fightingHero.Health + fightingPlanet.Modifiers.HeroHealthModifier);
+            fightingHero.Attack = (short)(fightingHero.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
+
+            Console.WriteLine(fightingVillain.Name + ": health = " + fightingVillain.Health);
+            Console.WriteLine(fightingVillain.Name + ": attack = " + fightingVillain.Attack);
+            Console.WriteLine(fightingHero.Name + ": health = " + fightingHero.Health);
+            Console.WriteLine(fightingHero.Name + ": attack = " + fightingHero.Attack);
+
+            Console.ReadLine();
         }
         private void AddHeroToAvengers(byte idHeroToAdd)
         {

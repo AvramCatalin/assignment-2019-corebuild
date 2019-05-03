@@ -6,6 +6,6 @@
         void VillainSelector();
         void HeroSelector();
         void AvangersTeam();
-        void Fight();
+        void FightMenu();
     }
 }

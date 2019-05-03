@@ -29,7 +29,7 @@ namespace CorebuildAssignment
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write("1");
             Console.ResetColor();
-            for (byte i=1;i<=5;i++)
+            for (byte i=1;i<=6;i++)
             {
                 if(i>=1 && i<=3)
                 {
@@ -102,13 +102,17 @@ namespace CorebuildAssignment
                         }
                         goto default;
                     case 5:
-                        Console.WriteLine(" Fight");
+                        Console.WriteLine(" Fight\n");
+                        goto default;
+                    case 6:
+                        Console.ResetColor();
+                        Console.WriteLine(" Exit");
                         goto default;
                     default:
                         Console.Write(" ");
                         Console.BackgroundColor = ConsoleColor.Yellow;
                         Console.ForegroundColor = ConsoleColor.Black;
-                        if (i <= 4)
+                        if (i <= 5)
                         {
                             Console.Write(i + 1);
                         }
@@ -161,14 +165,20 @@ namespace CorebuildAssignment
                             arena.AvangersTeam();
                             break;
                         case 5:
-                            arena.Fight();
+                            arena.FightMenu();
                             break;
+                        case 6:
+                            goto exit;
                         default:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(" No option of value: "+option+" found!");
+                            Console.ReadLine();
                             Console.Clear();
                             break;
                     }
                 }
             }
+        exit:;
         }
     }
 }
