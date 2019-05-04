@@ -571,7 +571,7 @@ namespace CorebuildAssignment
             System.Threading.Thread.Sleep(250);
             if (whoAttacksFirst == 1)
             {
-                Console.WriteLine("The Hero attacks first!");     
+                Console.WriteLine("The Hero attacks first!");
             }
             else
             {
@@ -583,7 +583,7 @@ namespace CorebuildAssignment
                 FightingInitializer(1);
                 while (fightingHero.Health > 0 && fightingVillain.Health > 0)
                 {
-                    if(whoAttacksFirst == 1)
+                    if (whoAttacksFirst == 1)
                     {
                         CharacterVsCharacter(fightingHero, fightingVillain);
                     }
@@ -592,14 +592,45 @@ namespace CorebuildAssignment
                         CharacterVsCharacter(fightingVillain, fightingHero);
                     }
                 }
+                if (fightingHero.Health > 0 && fightingVillain.Health <= 0)
+                {
+                    Console.WriteLine("\n"+fightingHero.Name +" wins!");
+                }
+                else
+                {
+                    Console.WriteLine("\n" + fightingVillain.Name + " wins!");
+                }
+                Console.ReadLine();
             }
             else
             {
                 FightingInitializer(2);
                 while (AvengersStillAlive() && fightingVillain.Health > 0)
                 {
-                    break;
+                    foreach (Character avenger in avengersList)
+                    {
+                        if (avenger.Health > 0 && fightingVillain.Health > 0)
+                        {
+                            if (whoAttacksFirst == 1)
+                            {
+                                CharacterVsCharacter(avenger, fightingVillain);
+                            }
+                            else
+                            {
+                                CharacterVsCharacter(fightingVillain, avenger);
+                            }
+                        }
+                    }
                 }
+                if (AvengersStillAlive() && fightingVillain.Health <= 0)
+                {
+                    Console.WriteLine("\n" + "The Avengers win!");
+                }
+                else
+                {
+                    Console.WriteLine("\n" + fightingVillain.Name + " wins!");
+                }
+                Console.ReadLine();
             }
         }
         private void FightingInitializer(byte option)
@@ -635,31 +666,31 @@ namespace CorebuildAssignment
         {
             Random random = new Random();
             short damage;
-            damage = (short)(avatar1.Attack * (random.Next(60, 101) / 100f));
-            Console.WriteLine(avatar1.Name + " attacks " + avatar2.Name + " and deals " + damage + " points of damage");
-            avatar2.Health = (short)(avatar2.Health - damage);
-            Console.WriteLine(avatar2.Name + " HP = " + avatar2.Health+"\n");
-
+            //avatar1 attacks avatar2
+            if (avatar2.Health > 0 && avatar1.Health > 0)
+            {
+                damage = (short)(avatar1.Attack * (random.Next(60, 101) / 100f));
+                Console.WriteLine(avatar1.Name + " attacks " + avatar2.Name + " and deals " + damage + " points of damage");
+                avatar2.Health = (short)(avatar2.Health - damage);
+                Console.WriteLine(avatar2.Name + " HP = " + avatar2.Health + "\n");
+            }
             if (avatar2.Health <= 0)
             {
-                Console.WriteLine(avatar2.Name + " was defeated");
-                Console.ReadLine();
+                Console.WriteLine(avatar2.Name + " was defeated!");
             }
-
-            if(avatar2.Health > 0)
+            //avatar2 attacks avatar1
+            if (avatar2.Health > 0 && avatar1.Health > 0)
             {
                 damage = (short)(avatar2.Attack * (random.Next(60, 101) / 100f));
                 Console.WriteLine(avatar2.Name + " attacks " + avatar1.Name + " and deals " + damage + " points of damage");
                 avatar1.Health = (short)(avatar1.Health - damage);
                 Console.WriteLine(avatar1.Name + " HP = " + avatar1.Health + "\n");
             }
-            if(avatar1.Health <= 0)
+            if (avatar1.Health <= 0)
             {
-                Console.WriteLine(avatar1.Name + " was defeated");
-                Console.ReadLine();
+                Console.WriteLine(avatar1.Name + " was defeated!");
             }
-
-            System.Threading.Thread.Sleep(4000);
+            System.Threading.Thread.Sleep(2000);
         }
         private void AddHeroToAvengers(byte idHeroToAdd)
         {
