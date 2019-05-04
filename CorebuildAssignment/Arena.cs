@@ -253,52 +253,44 @@ namespace CorebuildAssignment
         private void PlanetDetails()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(planets.Planet[idSelectedPlanet - 1].Name);
-            Console.ResetColor();
-            Console.WriteLine(" \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
-
-            Console.Write(" \u00BB " + "Villain Attack Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            char plus = '\0';
+            ColorWriter.WriteLine("Cyan"," "+planets.Planet[idSelectedPlanet - 1].Name);
+            ColorWriter.WriteLine("DarkGray", " \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
+            ColorWriter.Write("DarkGray", " \u00BB " + "Villain Attack Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
             {
-                plus = '+';
+                ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
             }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier);
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Villain Health Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            plus = '\0';
+            else
+            {
+                ColorWriter.WriteLine("Red",planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
+            }
+            ColorWriter.Write("DarkGray", " \u00BB " + "Villain Health Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier > 0)
             {
-                plus = '+';
+                ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier.ToString());
             }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier);
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Hero Attack Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            plus = '\0';
+            else
+            {
+                ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier.ToString());
+            }
+            ColorWriter.Write("DarkGray", " \u00BB " + "Hero Attack Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier > 0)
             {
-                plus = '+';
+                ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier.ToString());
             }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier);
-
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Hero Health Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            plus = '\0';
+            else
+            {
+                ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier.ToString());
+            }
+            ColorWriter.Write("DarkGray", " \u00BB " + "Hero Health Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier > 0)
             {
-                plus = '+';
+                ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier.ToString());
             }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier);
-            Console.ResetColor();
+            else
+            {
+                ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier.ToString());
+            }
         }
         public void VillainSelector()
         {
