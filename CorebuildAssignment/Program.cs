@@ -29,17 +29,17 @@ namespace CorebuildAssignment
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write("1");
             Console.ResetColor();
-            for (byte i=1;i<=6;i++)
+            for (byte i = 1; i <= 6; i++)
             {
-                if(i>=1 && i<=3)
+                if (i >= 1 && i <= 3)
                 {
                     Console.Write(" Select a");
                 }
-                if(i==4)
+                if (i == 4)
                 {
                     Console.Write(" Build the");
                 }
-                if (i==5)
+                if (i == 5)
                 {
                     Console.Write(" Start the");
                 }
@@ -52,7 +52,7 @@ namespace CorebuildAssignment
                         if (temporaryName != null)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("     \u00BB "+ temporaryName + " selected!");
+                            Console.WriteLine("     \u00BB " + temporaryName + " selected!");
                             Console.ForegroundColor = ConsoleColor.Cyan;
                         }
                         else
@@ -66,7 +66,7 @@ namespace CorebuildAssignment
                         if (temporaryName != null)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("     \u00BB "+ temporaryName + " selected!");
+                            Console.WriteLine("     \u00BB " + temporaryName + " selected!");
                             Console.ForegroundColor = ConsoleColor.Cyan;
                         }
                         else
@@ -123,18 +123,15 @@ namespace CorebuildAssignment
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("\n Select an option (number) : ");
             Console.ResetColor();
-            byte option=0;
+            byte option = 0;
             try
             {
                 option = byte.Parse(Console.ReadLine());
             }
             catch (Exception)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Wrong type of value given!\nExpected Byte");
+                SpecialMessage.ErrorMessage("Wrong type of value given!\n Expected Byte!");
                 errorGiven = true;
-                Console.ReadLine();
-                Console.Clear();
             }
             return option;
         }
@@ -143,7 +140,7 @@ namespace CorebuildAssignment
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WindowWidth = 118; //max is 240
             Console.WindowHeight = 30; //max is 63
-            while(true)
+            while (true)
             {
                 StartUpLogo();
                 errorGiven = false;
@@ -171,7 +168,7 @@ namespace CorebuildAssignment
                             goto exit;
                         default:
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(" No option of value: "+option+" found!");
+                            Console.Write(" No option of value: " + option + " found!");
                             Console.ReadLine();
                             Console.Clear();
                             break;

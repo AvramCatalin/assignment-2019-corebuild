@@ -22,29 +22,58 @@ namespace CorebuildAssignment
 
         private void OptionSelector(string dataName, bool multiple)
         {
-            bool whileRunner = true;
-            while (whileRunner)
+            while (true)
             {
-                Console.Write(" ");
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine(dataName + " Selector\n");
-                Console.ResetColor();
-
+                ColorWriter.SpaceWriteLine("Yellow", "Black", dataName + " Selector\n");
                 bool errorGiven = false;
                 if (dataName == "Planet")
                 {
                     foreach (Planet planet in planets.Planet)
                     {
-                        Console.Write(" ");
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write(planet.Id);
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine(" " + planet.Name);
-                        Console.ResetColor();
-                        Console.WriteLine(" \u2022 " + planet.Description);
+                        ColorWriter.SpaceWrite("Yellow", "Black", planet.Id.ToString());
+                        ColorWriter.SpaceWrite("Cyan", " " + planet.Name + '\n');
+                        ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + planet.Description);
+                    }
+                }
+                else
+                {
+                    foreach (Character character in characters.Character)
+                    {
+                        if (character.IsVillain && dataName == "Villain")
+                        {
+                            ColorWriter.SpaceWrite("Yellow", "Black", character.Id.ToString());
+                            ColorWriter.SpaceWrite("Cyan", " " + character.Name + '\n');
+                            ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + character.Description);
+                        }
+                        if (!character.IsVillain && dataName == "Hero")
+                        {
+                            ColorWriter.SpaceWrite("Yellow", "Black", character.Id.ToString());
+                            ColorWriter.SpaceWrite("Cyan", " " + character.Name + '\n');
+                            ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + character.Description);
+                        }
+                    }
+                }
+                ColorWriter.Write("Yellow", "\n Select a " + dataName.ToLower() + " : ");
+                byte idSelectedEntity = 0;
+                try
+                {
+                    idSelectedEntity = byte.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    SpecialMessage.ErrorMessage("Wrong type of value given!\n Expected Byte");
+                    errorGiven = true;
+                }
+                bool entityFound = false;
+                if (dataName == "Planet")
+                {
+                    foreach (Planet planet in planets.Planet)
+                    {
+                        if (planet.Id == idSelectedEntity)
+                        {
+                            entityFound = true;
+                            idSelectedPlanet = idSelectedEntity;
+                        }
                     }
                 }
                 else
@@ -53,271 +82,161 @@ namespace CorebuildAssignment
                     {
                         foreach (Character character in characters.Character)
                         {
-                            if (character.IsVillain)
-                            {
-                                Console.Write(" ");
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(character.Id);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.WriteLine(" " + character.Name);
-                                Console.ResetColor();
-                                Console.WriteLine(" \u2022 " + character.Description);
-                            }
-                        }
-                    }
-                    if (dataName == "Hero")
-                    {
-                        foreach (Character character in characters.Character)
-                        {
-                            if (!character.IsVillain)
-                            {
-                                Console.Write(" ");
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(character.Id);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.WriteLine(" " + character.Name);
-                                Console.ResetColor();
-                                Console.WriteLine(" \u2022 " + character.Description);
-                            }
-                        }
-                    }
-
-                }
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("\n Select a " + dataName.ToLower() + " : ");
-                Console.ResetColor();
-                byte idSelectedEntity = 0;
-                try
-                {
-                    idSelectedEntity = byte.Parse(Console.ReadLine());
-                }
-                catch (Exception)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong type of value given!\nExpected Byte");
-                    errorGiven = true;
-                    Console.ReadLine();
-                    Console.Clear();
-                }
-                finally
-                {
-                    bool entityFound = false;
-                    if (dataName == "Planet")
-                    {
-                        foreach (Planet planet in planets.Planet)
-                        {
-                            if (planet.Id == idSelectedEntity)
+                            if (character.Id == idSelectedEntity && character.IsVillain)
                             {
                                 entityFound = true;
-                                idSelectedPlanet = idSelectedEntity;
+                                idSelectedVillain = idSelectedEntity;
                             }
                         }
                     }
                     else
                     {
-                        if (dataName == "Villain")
+                        if (dataName == "Hero")
                         {
                             foreach (Character character in characters.Character)
                             {
-                                if (character.Id == idSelectedEntity && character.IsVillain)
+                                if (character.Id == idSelectedEntity && !character.IsVillain)
                                 {
                                     entityFound = true;
-                                    idSelectedVillain = idSelectedEntity;
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (dataName == "Hero")
-                            {
-                                foreach (Character character in characters.Character)
-                                {
-                                    if (character.Id == idSelectedEntity && !character.IsVillain)
-                                    {
-                                        entityFound = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (entityFound)
-                    {
-                        bool whileRunner2 = true;
-                        while (whileRunner2)
-                        {
-                            bool errorGiven2 = false;
-                            byte option = 0;
-                            if (dataName == "Planet")
-                            {
-                                PlanetDetails();
-                            }
-                            else
-                            {
-                                if (dataName == "Villain")
-                                {
-                                    CharacterDetails(idSelectedEntity);
-                                }
-                                else
-                                {
-                                    if (dataName == "Hero")
-                                    {
-                                        CharacterDetails(idSelectedEntity);
-                                    }
-                                }
-                            }
-
-                            Console.WriteLine("\nOptions: ");
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            if (dataName == "Hero" && multiple)
-                            {
-                                Console.Write("1");
-                                Console.ResetColor();
-                                Console.WriteLine(" Add to the Avengers team");
-                            }
-                            else
-                            {
-                                Console.Write("1");
-                                Console.ResetColor();
-                                Console.WriteLine(" Confirm selected " + dataName.ToLower());
-                            }
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.Write("2");
-                            Console.ResetColor();
-                            Console.WriteLine(" Go back to the selection menu");
-                            if (dataName == "Hero" && multiple)
-                            {
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write("3");
-                                Console.ResetColor();
-                                Console.WriteLine(" Show the Avengers team");
-
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write("4");
-                                Console.ResetColor();
-                                Console.WriteLine(" Clear the Avengers team");
-
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write("5");
-                                Console.ResetColor();
-                                Console.WriteLine(" Confirm Avengers Team");
-                            }
-
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.Write("\nSelect an option: ");
-                            Console.ResetColor();
-                            try
-                            {
-                                option = byte.Parse(Console.ReadLine());
-                            }
-                            catch (Exception)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Wrong type of value given!\nExpected Byte!");
-                                errorGiven2 = true;
-                                Console.ReadLine();
-                                Console.Clear();
-                            }
-                            finally
-                            {
-                                switch (option)
-                                {
-                                    case 1:
-                                        if (dataName == "Hero" && multiple)
-                                        {
-                                            AddHeroToAvengers(idSelectedEntity);
-                                        }
-                                        else
-                                        {
-                                            if (dataName == "Hero" && !multiple)
-                                            {
-                                                idSelectedHero = idSelectedEntity;
-                                            }
-                                            whileRunner2 = false;
-                                            whileRunner = false;
-                                        }
-
-                                        break;
-                                    case 2:
-                                        whileRunner2 = false;
-                                        Console.Clear();
-                                        break;
-                                    case 3:
-                                        if (dataName == "Hero" && multiple)
-                                        {
-                                            ShowAvengersTeam();
-                                        }
-                                        else
-                                        {
-                                            goto default;
-                                        }
-                                        break;
-                                    case 4:
-                                        if (dataName == "Hero" && multiple)
-                                        {
-                                            if (avengersList.Any())
-                                            {
-                                                avengersList.Clear();
-                                                Console.ForegroundColor = ConsoleColor.Green;
-                                                Console.Write("\nThe Avengers team was cleared!");
-                                                Console.ReadLine();
-                                            }
-                                            else
-                                            {
-                                                Console.ForegroundColor = ConsoleColor.Red;
-                                                Console.Write("\nThe Avengers team is already empty!");
-                                                Console.ReadLine();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            goto default;
-                                        }
-                                        break;
-                                    case 5:
-                                        if (dataName == "Hero" && multiple)
-                                        {
-                                            whileRunner2 = false;
-                                            whileRunner = false;
-                                        }
-                                        else
-                                        {
-                                            goto default;
-                                        }
-                                        break;
-                                    default:
-                                        if (!errorGiven2)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("No option of value = " + option + " was found");
-                                            Console.ReadLine();
-                                            Console.Clear();
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!errorGiven)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("No " + dataName.ToLower() + " of id = " + idSelectedEntity + " was found");
-                            Console.ReadLine();
-                            Console.Clear();
                         }
                     }
                 }
+                if (entityFound)
+                {
+                    while (true)
+                    {
+                        bool errorGiven2 = false;
+                        byte option = 0;
+                        if (dataName == "Planet")
+                        {
+                            PlanetDetails();
+                        }
+                        else
+                        {
+                            if (dataName == "Villain")
+                            {
+                                CharacterDetails(idSelectedEntity);
+                            }
+                            else
+                            {
+                                if (dataName == "Hero")
+                                {
+                                    CharacterDetails(idSelectedEntity);
+                                }
+                            }
+                        }
+                        ColorWriter.WriteLine("Yellow", "\n Options: \n");
+                        ColorWriter.SpaceWrite("Yellow", "Black", "1");
+                        if (dataName == "Hero" && multiple)
+                        {
+                            ColorWriter.WriteLine("Gray", " Add to the Avengers team\n");
+                        }
+                        else
+                        {
+                            ColorWriter.WriteLine("Gray", " Confirm selected " + dataName.ToLower()+'\n');
+                        }
+                        ColorWriter.SpaceWrite("Yellow", "Black", "2");
+                        ColorWriter.WriteLine("Gray", " Go back to the selection menu");
+                        if (dataName == "Hero" && multiple)
+                        {
+                            Console.WriteLine();
+                            ColorWriter.SpaceWrite("Yellow", "Black", "3");
+                            ColorWriter.WriteLine("Gray", " Show the Avengers team\n");
+
+                            ColorWriter.SpaceWrite("Yellow", "Black", "4");
+                            ColorWriter.WriteLine("Gray", " Clear the Avengers team\n");
+
+                            ColorWriter.SpaceWrite("Yellow", "Black", "5");
+                            ColorWriter.WriteLine("Gray", " Confirm Avengers Team");
+
+                        }
+                        ColorWriter.Write("Yellow", "\n Select an option: ");
+                        try
+                        {
+                            option = byte.Parse(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            SpecialMessage.ErrorMessage("Wrong type of value given!\n Expected Byte!");
+                            errorGiven2 = true;
+                        }
+                        switch (option)
+                        {
+                            case 1:
+                                if (dataName == "Hero" && multiple)
+                                {
+                                    AddHeroToAvengers(idSelectedEntity);
+                                }
+                                else
+                                {
+                                    if (dataName == "Hero" && !multiple)
+                                    {
+                                        idSelectedHero = idSelectedEntity;
+                                    }
+                                    goto mainExit;
+                                }
+                                break;
+                            case 2:
+                                Console.Clear();
+                                goto localExit;
+                            case 3:
+                                if (dataName == "Hero" && multiple)
+                                {
+                                    ShowAvengersTeam();
+                                }
+                                else
+                                {
+                                    goto default;
+                                }
+                                break;
+                            case 4:
+                                if (dataName == "Hero" && multiple)
+                                {
+                                    if (avengersList.Any())
+                                    {
+                                        avengersList.Clear();
+                                        SpecialMessage.SuccessMessage("The Avengers team was cleared!");
+                                    }
+                                    else
+                                    {
+                                        SpecialMessage.ErrorMessage("The Avengers team is already empty!");
+                                    }
+                                }
+                                else
+                                {
+                                    goto default;
+                                }
+                                break;
+                            case 5:
+                                if (dataName == "Hero" && multiple)
+                                {
+                                    goto mainExit;
+                                }
+                                else
+                                {
+                                    goto default;
+                                }
+                            default:
+                                if (!errorGiven2)
+                                {
+                                    SpecialMessage.ErrorMessage("No option of value = " + option + " was found");
+                                }
+                                break;
+                        }
+                    }
+                localExit:;
+                }
+                else
+                {
+                    if (!errorGiven)
+                    {
+                        SpecialMessage.ErrorMessage("No " + dataName.ToLower() + " of id = " + idSelectedEntity + " was found");
+                    }
+                }
             }
+        mainExit:
             Console.Clear();
         }
         public void PlanetSelector()
@@ -594,7 +513,7 @@ namespace CorebuildAssignment
                 }
                 if (fightingHero.Health > 0 && fightingVillain.Health <= 0)
                 {
-                    Console.WriteLine("\n"+fightingHero.Name +" wins!");
+                    Console.WriteLine("\n" + fightingHero.Name + " wins!");
                 }
                 else
                 {
