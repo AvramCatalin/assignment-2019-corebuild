@@ -136,7 +136,7 @@ namespace CorebuildAssignment
                         }
                         else
                         {
-                            ColorWriter.WriteLine("Gray", " Confirm selected " + dataName.ToLower()+'\n');
+                            ColorWriter.WriteLine("Gray", " Confirm selected " + dataName.ToLower() + '\n');
                         }
                         ColorWriter.SpaceWrite("Yellow", "Black", "2");
                         ColorWriter.WriteLine("Gray", " Go back to the selection menu");
@@ -258,7 +258,7 @@ namespace CorebuildAssignment
         private void PlanetDetails()
         {
             Console.Clear();
-            ColorWriter.SpaceWriteLine("Cyan",planets.Planet[idSelectedPlanet - 1].Name);
+            ColorWriter.SpaceWriteLine("Cyan", planets.Planet[idSelectedPlanet - 1].Name);
             ColorWriter.WriteLine("DarkGray", " \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
             ColorWriter.Write("DarkGray", " \u00BB " + "Villain Attack Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
@@ -267,7 +267,7 @@ namespace CorebuildAssignment
             }
             else
             {
-                ColorWriter.WriteLine("Red",planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
+                ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
             }
             ColorWriter.Write("DarkGray", " \u00BB " + "Villain Health Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier > 0)
@@ -315,11 +315,11 @@ namespace CorebuildAssignment
         private void CharacterDetails(byte idSelectedCharacter)
         {
             Console.Clear();
-            ColorWriter.SpaceWriteLine("Cyan",characters.Character[idSelectedCharacter - 1].Name);
+            ColorWriter.SpaceWriteLine("Cyan", characters.Character[idSelectedCharacter - 1].Name);
             ColorWriter.WriteLine("DarkGray", " \u2022 " + characters.Character[idSelectedCharacter - 1].Description);
             ColorWriter.Write("DarkGray", " \u00BB " + "Attack points: ");
             ColorWriter.Write("Magenta", characters.Character[idSelectedCharacter - 1].Attack.ToString());
-            ColorWriter.WriteLine("Yellow"," (Ap)");
+            ColorWriter.WriteLine("Yellow", " (Ap)");
             ColorWriter.Write("DarkGray", " \u00BB " + "Health points: ");
             ColorWriter.Write("Green", characters.Character[idSelectedCharacter - 1].Health.ToString());
             ColorWriter.WriteLine("Yellow", " (Hp)");
@@ -373,9 +373,9 @@ namespace CorebuildAssignment
                 while (true)
                 {
                     Console.Clear();
-                    ColorWriter.SpaceWriteLine("Yellow","Black","Fight Menu\n");
+                    ColorWriter.SpaceWriteLine("Yellow", "Black", "Fight Menu\n");
                     ColorWriter.SpaceWrite("Yellow", "Black", "1");
-                    ColorWriter.SpaceWriteLine("Gray","Villain vs Hero\n");
+                    ColorWriter.SpaceWriteLine("Gray", "Villain vs Hero\n");
                     ColorWriter.SpaceWrite("Yellow", "Black", "2");
                     ColorWriter.SpaceWriteLine("Gray", "Villain vs Avengers\n");
                     ColorWriter.Write("Yellow", " Select an option: ");
@@ -413,7 +413,7 @@ namespace CorebuildAssignment
                             }
                             goto exit;
                         default:
-                            if(!errorGiven)
+                            if (!errorGiven)
                             {
                                 SpecialMessage.ErrorMessage("No option of value: " + option + " found!");
                             }
@@ -427,6 +427,7 @@ namespace CorebuildAssignment
             }
         exit:;
             CharacterDeserializer();
+
             Console.Clear();
         }
         private bool AvengersStillAlive()
@@ -453,22 +454,21 @@ namespace CorebuildAssignment
                 {
                     if (whoAttacksFirst == 1)
                     {
-                        CharacterVsCharacter(fightingHero, fightingVillain,true);
+                        CharacterVsCharacter(fightingHero, fightingVillain, true);
                     }
                     else
                     {
-                        CharacterVsCharacter(fightingVillain, fightingHero,false);
+                        CharacterVsCharacter(fightingVillain, fightingHero, false);
                     }
                 }
                 if (fightingHero.Health > 0 && fightingVillain.Health <= 0)
                 {
-                    Console.WriteLine("\n" + fightingHero.Name + " wins!");
+                    SpecialMessage.WinMessage(fightingHero.Name + " wins!");
                 }
                 else
                 {
-                    Console.WriteLine("\n" + fightingVillain.Name + " wins!");
+                    SpecialMessage.LoseMessage(fightingVillain.Name + " wins!"); ;
                 }
-                Console.ReadLine();
             }
             else
             {
@@ -481,28 +481,23 @@ namespace CorebuildAssignment
                         {
                             if (whoAttacksFirst == 1)
                             {
-                                CharacterVsCharacter(avenger, fightingVillain,true);
+                                CharacterVsCharacter(avenger, fightingVillain, true);
                             }
                             else
                             {
-                                CharacterVsCharacter(fightingVillain, avenger,false);
+                                CharacterVsCharacter(fightingVillain, avenger, false);
                             }
                         }
                     }
                 }
-                foreach(Character character in characters.Character)
-                {
-                    SpecialMessage.ErrorMessage(character.Health.ToString());
-                }
                 if (AvengersStillAlive() && fightingVillain.Health <= 0)
                 {
-                    Console.WriteLine("\n" + "The Avengers win!");
+                    SpecialMessage.WinMessage("The Avengers win!");
                 }
                 else
                 {
-                    Console.WriteLine("\n" + fightingVillain.Name + " wins!");
+                    SpecialMessage.LoseMessage(fightingVillain.Name + " wins!"); ;
                 }
-                Console.ReadLine();
             }
         }
         private void CharacterNewStats(Character character)
@@ -582,7 +577,7 @@ namespace CorebuildAssignment
                     CharacterNewStats(character);
                 }
             }
-            SpecialMessage.CountdownMessage("Starting the battle in",10);
+            SpecialMessage.CountdownMessage("Starting the battle in", 5);
         }
         private void CharacterVsCharacter(Character avatar1, Character avatar2, bool heroAttacksFirst)
         {
@@ -591,14 +586,14 @@ namespace CorebuildAssignment
             if (!loadingMessageShown)
             {
                 loadingMessageShown = true;
-                SpecialMessage.LoadingMessage("Selecting who has the first turn (at random)");
+                SpecialMessage.LoadingMessage("\n Selecting who has the first turn (at random)");
                 if (heroAttacksFirst)
                 {
-                    ColorWriter.WriteLine("Yellow","The Hero attacks first!\n");
+                    ColorWriter.SpaceWriteLine("DarkYellow", "The Hero attacks first!\n");
                 }
                 else
                 {
-                    ColorWriter.WriteLine("Yellow", "The Villain attacks first!\n");
+                    ColorWriter.SpaceWriteLine("DarkYellow", "The Villain attacks first!\n");
                 }
                 System.Threading.Thread.Sleep(2000);
             }
@@ -606,26 +601,40 @@ namespace CorebuildAssignment
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
                 damage = (short)(avatar1.Attack * (random.Next(60, 101) / 100f));
-                Console.WriteLine(avatar1.Name + " attacks " + avatar2.Name + " and deals " + damage + " points of damage");
+                ColorWriter.Write("Cyan", " " + avatar1.Name);
+                ColorWriter.Write("Gray", " attacks ");
+                ColorWriter.Write("Yellow", avatar2.Name);
+                ColorWriter.Write("Gray", " and deals ");
+                ColorWriter.Write("Magenta", damage.ToString());
+                ColorWriter.WriteLine("Gray", " points of damage");
                 avatar2.Health = (short)(avatar2.Health - damage);
-                Console.WriteLine(avatar2.Name + " HP = " + avatar2.Health + "\n");
+                ColorWriter.Write("Yellow", "\n " + avatar2.Name);
+                ColorWriter.Write("Gray", " Hp = ");
+                ColorWriter.WriteLine("Green", avatar2.Health + "\n");
             }
             if (avatar2.Health <= 0)
             {
-                Console.WriteLine(avatar2.Name + " was defeated!");
+                SpecialMessage.DefeatMessage(avatar2.Name + " was defeated!");
             }
             System.Threading.Thread.Sleep(1000);
             //avatar2 attacks avatar1
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
                 damage = (short)(avatar2.Attack * (random.Next(60, 101) / 100f));
-                Console.WriteLine(avatar2.Name + " attacks " + avatar1.Name + " and deals " + damage + " points of damage");
+                ColorWriter.Write("Yellow", " " + avatar2.Name);
+                ColorWriter.Write("Gray", " attacks ");
+                ColorWriter.Write("Cyan", avatar1.Name);
+                ColorWriter.Write("Gray", " and deals ");
+                ColorWriter.Write("Magenta", damage.ToString());
+                ColorWriter.WriteLine("Gray", " points of damage");
                 avatar1.Health = (short)(avatar1.Health - damage);
-                Console.WriteLine(avatar1.Name + " HP = " + avatar1.Health + "\n");
+                ColorWriter.Write("Cyan", "\n " + avatar1.Name);
+                ColorWriter.Write("Gray", " Hp = ");
+                ColorWriter.WriteLine("Green", avatar1.Health + "\n");
             }
             if (avatar1.Health <= 0)
             {
-                Console.WriteLine(avatar1.Name + " was defeated!");
+                SpecialMessage.DefeatMessage(avatar1.Name + " was defeated!");
             }
             System.Threading.Thread.Sleep(1000);
         }
