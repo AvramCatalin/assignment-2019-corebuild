@@ -339,10 +339,30 @@ namespace CorebuildAssignment
             Console.ResetColor();
             Console.WriteLine(" \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
 
+            Console.Write(" \u00BB " + "Villain Attack Modifier: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            char plus = '\0';
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
+            {
+                plus = '+';
+            }
+            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier);
+            Console.ResetColor();
+
+            Console.Write(" \u00BB " + "Villain Health Modifier: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            plus = '\0';
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier > 0)
+            {
+                plus = '+';
+            }
+            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier);
+            Console.ResetColor();
+
             Console.Write(" \u00BB " + "Hero Attack Modifier: ");
             Console.ForegroundColor = ConsoleColor.Red;
 
-            char plus = '\0';
+            plus = '\0';
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier > 0)
             {
                 plus = '+';
@@ -359,26 +379,6 @@ namespace CorebuildAssignment
                 plus = '+';
             }
             Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier);
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Villain Attack Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            plus = '\0';
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
-            {
-                plus = '+';
-            }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier);
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Villain Health Modifier: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            plus = '\0';
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier > 0)
-            {
-                plus = '+';
-            }
-            Console.WriteLine(plus + "" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier);
             Console.ResetColor();
         }
         public void VillainSelector()
@@ -463,7 +463,6 @@ namespace CorebuildAssignment
             if (idSelectedPlanet != 0 && idSelectedVillain != 0)
             {
                 IdToObject("Planet");
-                IdToObject("Character");
                 while (true)
                 {
                     Console.Clear();
@@ -503,7 +502,7 @@ namespace CorebuildAssignment
                         case 1:
                             if (idSelectedHero != 0)
                             {
-                                VillainVsHero();
+                                FightController(1);
                             }
                             else
                             {
@@ -516,7 +515,7 @@ namespace CorebuildAssignment
                         case 2:
                             if (avengersList.Any())
                             {
-
+                                FightController(2);
                             }
                             else
                             {
@@ -545,20 +544,122 @@ namespace CorebuildAssignment
         exit:;
             Console.Clear();
         }
-        private void VillainVsHero()
+        private bool AvengersStillAlive()
         {
-            Console.WriteLine("Planet Modifiers Activated!");
+            bool alive = false;
+            foreach (Character character in avengersList)
+            {
+                if (character.Health > 0)
+                {
+                    alive = true;
+                }
+            }
+            return alive;
+        }
+        public void FightController(byte option)
+        {
+            IdToObject("Character");
+            Random random = new Random();
+            byte whoAttacksFirst = (byte)random.Next(2); //generates either a 0 or a 1
+            Console.Write("Selecting who has the first turn (at random)");
+            System.Threading.Thread.Sleep(500);
+            Console.Write(" .");
+            System.Threading.Thread.Sleep(1000);
+            Console.Write(" .");
+            System.Threading.Thread.Sleep(1000);
+            Console.Write(" .\n");
+            System.Threading.Thread.Sleep(250);
+            if (whoAttacksFirst == 1)
+            {
+                Console.WriteLine("The Hero attacks first!");     
+            }
+            else
+            {
+                Console.WriteLine("The Villain attacks first!");
+            }
+            System.Threading.Thread.Sleep(2250);
+            if (option == 1)
+            {
+                FightingInitializer(1);
+                while (fightingHero.Health > 0 && fightingVillain.Health > 0)
+                {
+                    if(whoAttacksFirst == 1)
+                    {
+                        CharacterVsCharacter(fightingHero, fightingVillain);
+                    }
+                    else
+                    {
+                        CharacterVsCharacter(fightingVillain, fightingHero);
+                    }
+                }
+            }
+            else
+            {
+                FightingInitializer(2);
+                while (AvengersStillAlive() && fightingVillain.Health > 0)
+                {
+                    break;
+                }
+            }
+        }
+        private void FightingInitializer(byte option)
+        {
+            PlanetDetails();
+            Console.WriteLine("\n" + fightingPlanet.Name + " Modifiers Activated!\n");
+
             fightingVillain.Health = (short)(fightingVillain.Health + fightingPlanet.Modifiers.VillainHealthModifier);
             fightingVillain.Attack = (short)(fightingVillain.Attack + fightingPlanet.Modifiers.VillainAttackModifier);
-            fightingHero.Health = (short)(fightingHero.Health + fightingPlanet.Modifiers.HeroHealthModifier);
-            fightingHero.Attack = (short)(fightingHero.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
+            Console.WriteLine(fightingVillain.Name + ": new attack = " + fightingVillain.Attack);
+            Console.WriteLine(fightingVillain.Name + ": new health = " + fightingVillain.Health + "\n");
 
-            Console.WriteLine(fightingVillain.Name + ": health = " + fightingVillain.Health);
-            Console.WriteLine(fightingVillain.Name + ": attack = " + fightingVillain.Attack);
-            Console.WriteLine(fightingHero.Name + ": health = " + fightingHero.Health);
-            Console.WriteLine(fightingHero.Name + ": attack = " + fightingHero.Attack);
-
+            if (option == 1)
+            {
+                fightingHero.Health = (short)(fightingHero.Health + fightingPlanet.Modifiers.HeroHealthModifier);
+                fightingHero.Attack = (short)(fightingHero.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
+                Console.WriteLine(fightingHero.Name + ": new attack = " + fightingHero.Attack);
+                Console.WriteLine(fightingHero.Name + ": new health = " + fightingHero.Health);
+            }
+            else
+            {
+                foreach (Character character in avengersList)
+                {
+                    character.Health = (short)(character.Health + fightingPlanet.Modifiers.HeroHealthModifier);
+                    character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
+                    Console.WriteLine(character.Name + ": new attack = " + character.Attack);
+                    Console.WriteLine(character.Name + ": new health = " + character.Health);
+                }
+            }
             Console.ReadLine();
+        }
+        private void CharacterVsCharacter(Character avatar1, Character avatar2)
+        {
+            Random random = new Random();
+            short damage;
+            damage = (short)(avatar1.Attack * (random.Next(60, 101) / 100f));
+            Console.WriteLine(avatar1.Name + " attacks " + avatar2.Name + " and deals " + damage + " points of damage");
+            avatar2.Health = (short)(avatar2.Health - damage);
+            Console.WriteLine(avatar2.Name + " HP = " + avatar2.Health+"\n");
+
+            if (avatar2.Health <= 0)
+            {
+                Console.WriteLine(avatar2.Name + " was defeated");
+                Console.ReadLine();
+            }
+
+            if(avatar2.Health > 0)
+            {
+                damage = (short)(avatar2.Attack * (random.Next(60, 101) / 100f));
+                Console.WriteLine(avatar2.Name + " attacks " + avatar1.Name + " and deals " + damage + " points of damage");
+                avatar1.Health = (short)(avatar1.Health - damage);
+                Console.WriteLine(avatar1.Name + " HP = " + avatar1.Health + "\n");
+            }
+            if(avatar1.Health <= 0)
+            {
+                Console.WriteLine(avatar1.Name + " was defeated");
+                Console.ReadLine();
+            }
+
+            System.Threading.Thread.Sleep(4000);
         }
         private void AddHeroToAvengers(byte idHeroToAdd)
         {
