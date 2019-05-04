@@ -14,11 +14,12 @@ namespace CorebuildAssignment
         private byte idSelectedHero = 0;
         private byte idSelectedVillain = 0;
         private Planets planets;
-        private Characters characters;
+        private Characters characters = new Characters();
         private List<Character> avengersList = new List<Character>();
         private Planet fightingPlanet;
         private Character fightingHero;
         private Character fightingVillain;
+        private bool loadingMessageShown;
 
         private void OptionSelector(string dataName, bool multiple)
         {
@@ -239,21 +240,25 @@ namespace CorebuildAssignment
         mainExit:
             Console.Clear();
         }
-        public void PlanetSelector()
+        private void PlanetDeserializer()
         {
-            Console.Clear();
-            idSelectedPlanet = 0;
             XmlSerializer serializer = new XmlSerializer(typeof(Planets));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\planets.xml", FileMode.Open))
             {
                 planets = (Planets)serializer.Deserialize(fileStream);
             }
+        }
+        public void PlanetSelector()
+        {
+            Console.Clear();
+            idSelectedPlanet = 0;
+            PlanetDeserializer();
             OptionSelector("Planet", false);
         }
         private void PlanetDetails()
         {
             Console.Clear();
-            ColorWriter.WriteLine("Cyan"," "+planets.Planet[idSelectedPlanet - 1].Name);
+            ColorWriter.SpaceWriteLine("Cyan",planets.Planet[idSelectedPlanet - 1].Name);
             ColorWriter.WriteLine("DarkGray", " \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
             ColorWriter.Write("DarkGray", " \u00BB " + "Villain Attack Modifier: ");
             if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
@@ -292,59 +297,49 @@ namespace CorebuildAssignment
                 ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier.ToString());
             }
         }
-        public void VillainSelector()
+        private void CharacterDeserializer()
         {
-            Console.Clear();
-            idSelectedVillain = 0;
             XmlSerializer serializer = new XmlSerializer(typeof(Characters));
             using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
             {
                 characters = (Characters)serializer.Deserialize(fileStream);
             }
+        }
+        public void VillainSelector()
+        {
+            Console.Clear();
+            idSelectedVillain = 0;
+            CharacterDeserializer();
             OptionSelector("Villain", false);
         }
         private void CharacterDetails(byte idSelectedCharacter)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Name);
-            Console.ResetColor();
-            Console.WriteLine(" \u2022 " + characters.Character[idSelectedCharacter - 1].Description);
-
-            Console.Write(" \u00BB " + "Attack points: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Attack);
-            Console.ResetColor();
-
-            Console.Write(" \u00BB " + "Health points: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(characters.Character[idSelectedCharacter - 1].Health);
-            Console.ResetColor();
+            ColorWriter.SpaceWriteLine("Cyan",characters.Character[idSelectedCharacter - 1].Name);
+            ColorWriter.WriteLine("DarkGray", " \u2022 " + characters.Character[idSelectedCharacter - 1].Description);
+            ColorWriter.Write("DarkGray", " \u00BB " + "Attack points: ");
+            ColorWriter.Write("Magenta", characters.Character[idSelectedCharacter - 1].Attack.ToString());
+            ColorWriter.WriteLine("Yellow"," (Ap)");
+            ColorWriter.Write("DarkGray", " \u00BB " + "Health points: ");
+            ColorWriter.Write("Green", characters.Character[idSelectedCharacter - 1].Health.ToString());
+            ColorWriter.WriteLine("Yellow", " (Hp)");
         }
         public void HeroSelector()
         {
             Console.Clear();
             idSelectedHero = 0;
-            XmlSerializer serializer = new XmlSerializer(typeof(Characters));
-            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
-            {
-                characters = (Characters)serializer.Deserialize(fileStream);
-            }
+            CharacterDeserializer();
             OptionSelector("Hero", false);
         }
         public void AvangersTeam()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Characters));
-            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
-            {
-                characters = (Characters)serializer.Deserialize(fileStream);
-            }
             Console.Clear();
+            CharacterDeserializer();
             OptionSelector("Hero", true);
         }
-        private void IdToObject(string objectName)
+        private void IdToObject(string objectType)
         {
-            if (objectName == "Planet")
+            if (objectType == "Planet")
             {
                 foreach (Planet planet in planets.Planet)
                 {
@@ -354,7 +349,7 @@ namespace CorebuildAssignment
                     }
                 }
             }
-            if (objectName == "Character")
+            if (objectType == "Character")
             {
                 foreach (Character character in characters.Character)
                 {
@@ -371,42 +366,29 @@ namespace CorebuildAssignment
         }
         public void FightMenu()
         {
+            loadingMessageShown = false;
             if (idSelectedPlanet != 0 && idSelectedVillain != 0)
             {
                 IdToObject("Planet");
                 while (true)
                 {
                     Console.Clear();
-                    Console.Write("\n ");
-                    Console.BackgroundColor = ConsoleColor.Yellow;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write("1");
-                    Console.ResetColor();
-                    Console.WriteLine(" Villain vs Hero\n");
-
-                    Console.Write(" ");
-                    Console.BackgroundColor = ConsoleColor.Yellow;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write("2");
-                    Console.ResetColor();
-                    Console.WriteLine(" Villain vs Avengers\n");
-
-                    Console.Write(" ");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(" Select an option: ");
-                    Console.ResetColor();
-
+                    ColorWriter.SpaceWriteLine("Yellow","Black","Fight Menu\n");
+                    ColorWriter.SpaceWrite("Yellow", "Black", "1");
+                    ColorWriter.SpaceWriteLine("Gray","Villain vs Hero\n");
+                    ColorWriter.SpaceWrite("Yellow", "Black", "2");
+                    ColorWriter.SpaceWriteLine("Gray", "Villain vs Avengers\n");
+                    ColorWriter.Write("Yellow", " Select an option: ");
                     byte option = 0;
+                    bool errorGiven = false;
                     try
                     {
                         option = byte.Parse(Console.ReadLine());
                     }
                     catch (Exception)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Wrong type of value given!\nExpected Byte");
-                        Console.ReadLine();
-                        Console.Clear();
+                        SpecialMessage.ErrorMessage("Wrong type of value given!\n Expected Byte");
+                        errorGiven = true;
                     }
                     switch (option)
                     {
@@ -417,10 +399,7 @@ namespace CorebuildAssignment
                             }
                             else
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.Write(" No hero selected!");
-                                Console.ReadLine();
-                                Console.Clear();
+                                SpecialMessage.ErrorMessage("No hero selected!");
                             }
                             goto exit;
                         case 2:
@@ -430,29 +409,24 @@ namespace CorebuildAssignment
                             }
                             else
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.Write(" Avengers team empty!");
-                                Console.ReadLine();
-                                Console.Clear();
+                                SpecialMessage.ErrorMessage("Avengers team empty!");
                             }
                             goto exit;
                         default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(" No option of value: " + option + " found!");
-                            Console.ReadLine();
-                            Console.Clear();
+                            if(!errorGiven)
+                            {
+                                SpecialMessage.ErrorMessage("No option of value: " + option + " found!");
+                            }
                             break;
                     }
                 }
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(" Please select a Planet and a Villain!");
-                Console.ReadLine();
-                Console.Clear();
+                SpecialMessage.ErrorMessage("Please select a Planet and a Villain!");
             }
         exit:;
+            CharacterDeserializer();
             Console.Clear();
         }
         private bool AvengersStillAlive()
@@ -472,23 +446,6 @@ namespace CorebuildAssignment
             IdToObject("Character");
             Random random = new Random();
             byte whoAttacksFirst = (byte)random.Next(2); //generates either a 0 or a 1
-            Console.Write("Selecting who has the first turn (at random)");
-            System.Threading.Thread.Sleep(500);
-            Console.Write(" .");
-            System.Threading.Thread.Sleep(1000);
-            Console.Write(" .");
-            System.Threading.Thread.Sleep(1000);
-            Console.Write(" .\n");
-            System.Threading.Thread.Sleep(250);
-            if (whoAttacksFirst == 1)
-            {
-                Console.WriteLine("The Hero attacks first!");
-            }
-            else
-            {
-                Console.WriteLine("The Villain attacks first!");
-            }
-            System.Threading.Thread.Sleep(2250);
             if (option == 1)
             {
                 FightingInitializer(1);
@@ -496,11 +453,11 @@ namespace CorebuildAssignment
                 {
                     if (whoAttacksFirst == 1)
                     {
-                        CharacterVsCharacter(fightingHero, fightingVillain);
+                        CharacterVsCharacter(fightingHero, fightingVillain,true);
                     }
                     else
                     {
-                        CharacterVsCharacter(fightingVillain, fightingHero);
+                        CharacterVsCharacter(fightingVillain, fightingHero,false);
                     }
                 }
                 if (fightingHero.Health > 0 && fightingVillain.Health <= 0)
@@ -524,14 +481,18 @@ namespace CorebuildAssignment
                         {
                             if (whoAttacksFirst == 1)
                             {
-                                CharacterVsCharacter(avenger, fightingVillain);
+                                CharacterVsCharacter(avenger, fightingVillain,true);
                             }
                             else
                             {
-                                CharacterVsCharacter(fightingVillain, avenger);
+                                CharacterVsCharacter(fightingVillain, avenger,false);
                             }
                         }
                     }
+                }
+                foreach(Character character in characters.Character)
+                {
+                    SpecialMessage.ErrorMessage(character.Health.ToString());
                 }
                 if (AvengersStillAlive() && fightingVillain.Health <= 0)
                 {
@@ -544,39 +505,103 @@ namespace CorebuildAssignment
                 Console.ReadLine();
             }
         }
+        private void CharacterNewStats(Character character)
+        {
+            ColorWriter.SpaceWriteLine("Cyan", character.Name);
+            ColorWriter.Write("Gray", " \u00BB Attack = " + character.Attack);
+            if (character.IsVillain)
+            {
+                character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.VillainAttackModifier);
+                if (fightingPlanet.Modifiers.VillainAttackModifier > 0)
+                {
+                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.VillainAttackModifier);
+                }
+                else
+                {
+                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.VillainAttackModifier.ToString());
+                }
+                ColorWriter.Write("Gray", " = ");
+            }
+            else
+            {
+                character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
+                if (fightingPlanet.Modifiers.HeroAttackModifier > 0)
+                {
+                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.HeroAttackModifier);
+                }
+                else
+                {
+                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.HeroAttackModifier.ToString());
+                }
+                ColorWriter.Write("Gray", " = ");
+            }
+            ColorWriter.Write("Magenta", character.Attack.ToString());
+            ColorWriter.WriteLine("Yellow", " (Ap)");
+            ColorWriter.Write("Gray", " \u00BB Health = " + character.Health);
+            if (character.IsVillain)
+            {
+                character.Health = (short)(character.Health + fightingPlanet.Modifiers.VillainHealthModifier);
+                if (fightingPlanet.Modifiers.VillainHealthModifier > 0)
+                {
+                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.VillainHealthModifier);
+                }
+                else
+                {
+                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.VillainHealthModifier.ToString());
+                }
+                ColorWriter.Write("Gray", " = ");
+            }
+            else
+            {
+                character.Health = (short)(character.Health + fightingPlanet.Modifiers.HeroHealthModifier);
+                if (fightingPlanet.Modifiers.HeroHealthModifier > 0)
+                {
+                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.HeroHealthModifier);
+                }
+                else
+                {
+                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.HeroHealthModifier.ToString());
+                }
+                ColorWriter.Write("Gray", " = ");
+            }
+            ColorWriter.Write("Green", character.Health.ToString());
+            ColorWriter.WriteLine("Yellow", " (Hp)");
+        }
         private void FightingInitializer(byte option)
         {
-            PlanetDetails();
-            Console.WriteLine("\n" + fightingPlanet.Name + " Modifiers Activated!\n");
-
-            fightingVillain.Health = (short)(fightingVillain.Health + fightingPlanet.Modifiers.VillainHealthModifier);
-            fightingVillain.Attack = (short)(fightingVillain.Attack + fightingPlanet.Modifiers.VillainAttackModifier);
-            Console.WriteLine(fightingVillain.Name + ": new attack = " + fightingVillain.Attack);
-            Console.WriteLine(fightingVillain.Name + ": new health = " + fightingVillain.Health + "\n");
-
+            Console.Clear();
+            CharacterNewStats(fightingVillain);
             if (option == 1)
             {
-                fightingHero.Health = (short)(fightingHero.Health + fightingPlanet.Modifiers.HeroHealthModifier);
-                fightingHero.Attack = (short)(fightingHero.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
-                Console.WriteLine(fightingHero.Name + ": new attack = " + fightingHero.Attack);
-                Console.WriteLine(fightingHero.Name + ": new health = " + fightingHero.Health);
+                CharacterNewStats(fightingHero);
             }
             else
             {
                 foreach (Character character in avengersList)
                 {
-                    character.Health = (short)(character.Health + fightingPlanet.Modifiers.HeroHealthModifier);
-                    character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
-                    Console.WriteLine(character.Name + ": new attack = " + character.Attack);
-                    Console.WriteLine(character.Name + ": new health = " + character.Health);
+                    CharacterNewStats(character);
                 }
             }
-            Console.ReadLine();
+            SpecialMessage.CountdownMessage("Starting the battle in",10);
         }
-        private void CharacterVsCharacter(Character avatar1, Character avatar2)
+        private void CharacterVsCharacter(Character avatar1, Character avatar2, bool heroAttacksFirst)
         {
             Random random = new Random();
             short damage;
+            if (!loadingMessageShown)
+            {
+                loadingMessageShown = true;
+                SpecialMessage.LoadingMessage("Selecting who has the first turn (at random)");
+                if (heroAttacksFirst)
+                {
+                    ColorWriter.WriteLine("Yellow","The Hero attacks first!\n");
+                }
+                else
+                {
+                    ColorWriter.WriteLine("Yellow", "The Villain attacks first!\n");
+                }
+                System.Threading.Thread.Sleep(2000);
+            }
             //avatar1 attacks avatar2
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
@@ -589,6 +614,7 @@ namespace CorebuildAssignment
             {
                 Console.WriteLine(avatar2.Name + " was defeated!");
             }
+            System.Threading.Thread.Sleep(1000);
             //avatar2 attacks avatar1
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
@@ -601,7 +627,7 @@ namespace CorebuildAssignment
             {
                 Console.WriteLine(avatar1.Name + " was defeated!");
             }
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(1000);
         }
         private void AddHeroToAvengers(byte idHeroToAdd)
         {

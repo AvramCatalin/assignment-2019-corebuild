@@ -4,7 +4,7 @@ namespace CorebuildAssignment
 {
     class Program
     {
-        private static Arena arena = new Arena();
+        private static Arena arena;
         private static bool errorGiven = false;
         private static void StartUpLogo()
         {
@@ -140,6 +140,7 @@ namespace CorebuildAssignment
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WindowWidth = 118; //max is 240
             Console.WindowHeight = 30; //max is 63
+            arena = new Arena();
             while (true)
             {
                 StartUpLogo();
