@@ -21,11 +21,11 @@ namespace CorebuildAssignment
 
         private static byte MainSelectionMenu()
         {
-            ColorWriter.WriteLine("Yellow"," Main menu options: \n");
-            ColorWriter.SpaceWrite("Yellow","Black", "1");
-            ColorWriter.SpaceWrite("Gray","Select a");
+            ColorWriter.WriteLine("Yellow", " Main menu options: \n");
+            ColorWriter.SpaceWrite("Yellow", "Black", "1");
+            ColorWriter.SpaceWrite("Gray", "Select a");
             ColorWriter.SpaceWriteLine("Cyan", "Planet");
-            if(arena.PlanetChecker() != null)
+            if (arena.PlanetChecker() != null)
             {
                 ColorWriter.SpaceWriteLine("Green", "     \u00BB " + arena.PlanetChecker() + " selected!");
             }
@@ -71,7 +71,7 @@ namespace CorebuildAssignment
             ColorWriter.SpaceWriteLine("Cyan", "Fight\n");
             ColorWriter.SpaceWrite("Yellow", "Black", "6");
             ColorWriter.SpaceWriteLine("Gray", "Exit");
-            ColorWriter.Write("Yellow","\n Select an option (number) : ");
+            ColorWriter.Write("Yellow", "\n Select an option (number) : ");
             byte option = 0;
             try
             {
@@ -87,8 +87,8 @@ namespace CorebuildAssignment
         static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.WindowWidth = 118; //max is 240
-            Console.WindowHeight = 42; //max is 63
+            Console.WindowWidth = (int)(Console.LargestWindowWidth * 0.495d);
+            Console.WindowHeight = (int)(Console.LargestWindowHeight * 0.667d);
             arena = new Arena();
             while (true)
             {
