@@ -8,8 +8,6 @@ namespace CorebuildAssignment
 {
     class Arena : IArena
     {
-        private static readonly string workingDirectory = Environment.CurrentDirectory;
-        private static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
         private byte idSelectedPlanet = 0;
         private byte idSelectedHero = 0;
         private byte idSelectedVillain = 0;
@@ -244,9 +242,17 @@ namespace CorebuildAssignment
         private void PlanetDeserializer()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Planets));
-            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\planets.xml", FileMode.Open))
+            try
             {
-                planets = (Planets)serializer.Deserialize(fileStream);
+                using (FileStream fileStream = new FileStream(@"InputFiles\planets.xml", FileMode.Open))
+                {
+                    planets = (Planets)serializer.Deserialize(fileStream);
+                }
+            }
+            catch(Exception)
+            {
+                SpecialMessage.ErrorMessage("InputFiles\\planets.xml not found! \n Program will exit!");
+                Environment.Exit(1);
             }
         }
         public void PlanetSelector()
@@ -300,10 +306,19 @@ namespace CorebuildAssignment
         private void CharacterDeserializer()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Characters));
-            using (FileStream fileStream = new FileStream(projectDirectory + @"\InputFiles\characters.xml", FileMode.Open))
+            try
             {
-                characters = (Characters)serializer.Deserialize(fileStream);
+                using (FileStream fileStream = new FileStream(@"InputFiles\characters.xml", FileMode.Open))
+                {
+                    characters = (Characters)serializer.Deserialize(fileStream);
+                }
             }
+            catch (Exception)
+            {
+                SpecialMessage.ErrorMessage("InputFiles\\characters.xml not found! \n Program will exit!");
+                Environment.Exit(1);
+            }
+
         }
         public void VillainSelector()
         {
@@ -575,6 +590,7 @@ namespace CorebuildAssignment
             {
                 ColorWriter.SpaceWriteLine("Yellow", "Black", "Selected Hero\n");
                 CharacterNewStats(fightingHero);
+                Console.WriteLine();
             }
             else
             {
