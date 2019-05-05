@@ -18,7 +18,26 @@ namespace CorebuildAssignment
             Console.WriteLine(@"                                           | | ");
             Console.WriteLine(@"                                           |_| ");
         }
-
+        private static void SetWindowSize()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            if (Console.LargestWindowWidth >= 118)
+            {
+                Console.WindowWidth = 118;
+            }
+            else
+            {
+                Console.WindowWidth = Console.LargestWindowWidth;
+            }
+            if (Console.LargestWindowHeight >= 42)
+            {
+                Console.WindowHeight = 42;
+            }
+            else
+            {
+                Console.WindowHeight = Console.LargestWindowHeight;
+            }
+        }
         private static byte MainSelectionMenu()
         {
             ColorWriter.WriteLine("Yellow", " Main menu options: \n");
@@ -86,9 +105,7 @@ namespace CorebuildAssignment
         }
         static void Main()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.WindowWidth = (int)(Console.LargestWindowWidth * 0.495d);
-            Console.WindowHeight = (int)(Console.LargestWindowHeight * 0.667d);
+            SetWindowSize();
             arena = new Arena();
             while (true)
             {
