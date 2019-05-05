@@ -15,38 +15,45 @@ namespace CorebuildAssignment
         public static void SuccessMessage(string text)
         {
             ColorWriter.Write("Green", "\n " + text);
-            //SystemSounds.Exclamation.Play();
+            //add sound
             Console.ReadLine();
             Console.Clear();
         }
         public static void WinMessage(string text)
         {
-            ColorWriter.Write("Green", "\n " + text);
+            ColorWriter.SpaceWrite("Green", text);
             //add sound
             Console.ReadLine();
             Console.Clear();
         }
         public static void LoseMessage(string text)
         {
-            ColorWriter.Write("Red", "\n " + text);
+            ColorWriter.SpaceWrite("Red", text);
             //add sound
             Console.ReadLine();
             Console.Clear();
         }
         public static void DefeatMessage(string text)
         {
-            ColorWriter.SpaceWriteLine("Magenta", text);
+            ColorWriter.SpaceWriteLine("Magenta", text + "\n");
             //add sound
+        }
+        public static void WaitingOnEnterMessage(string text)
+        {
+            ColorWriter.SpaceWrite("Yellow",text);
+            Console.ReadLine();
         }
         public static void LoadingMessage(string text)
         {
-            ColorWriter.Write("Yellow", "\n " + text + " ");
-            for (byte i = 0; i <= 4; i++)
+            ColorWriter.SpaceWrite("Yellow",text);
+            for (byte i = 0; i <= 3; i++)
             {
                 System.Threading.Thread.Sleep(750);
-                ColorWriter.Write("White", ". ");
+                ColorWriter.SpaceWrite("White", ".");
             }
-            Console.Clear();
+            System.Threading.Thread.Sleep(750);
+            ColorWriter.SpaceWriteLine("White", ".");
+            System.Threading.Thread.Sleep(750);
         }
         public static void CountdownMessage(string text, byte i)
         {
@@ -57,6 +64,8 @@ namespace CorebuildAssignment
                 System.Threading.Thread.Sleep(750);
                 i--;
             }
+            ColorWriter.WriteLine("White", i.ToString());
+            Console.Clear();
         }
     }
 }

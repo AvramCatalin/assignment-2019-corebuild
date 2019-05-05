@@ -32,7 +32,7 @@ namespace CorebuildAssignment
                     foreach (Planet planet in planets.Planet)
                     {
                         ColorWriter.SpaceWrite("Yellow", "Black", planet.Id.ToString());
-                        ColorWriter.SpaceWrite("Cyan", " " + planet.Name + '\n');
+                        ColorWriter.SpaceWrite("Cyan", planet.Name + '\n');
                         ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + planet.Description);
                     }
                 }
@@ -43,13 +43,13 @@ namespace CorebuildAssignment
                         if (character.IsVillain && dataName == "Villain")
                         {
                             ColorWriter.SpaceWrite("Yellow", "Black", character.Id.ToString());
-                            ColorWriter.SpaceWrite("Cyan", " " + character.Name + '\n');
+                            ColorWriter.SpaceWrite("Cyan", character.Name + '\n');
                             ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + character.Description);
                         }
                         if (!character.IsVillain && dataName == "Hero")
                         {
                             ColorWriter.SpaceWrite("Yellow", "Black", character.Id.ToString());
-                            ColorWriter.SpaceWrite("Cyan", " " + character.Name + '\n');
+                            ColorWriter.SpaceWrite("Cyan", character.Name + '\n');
                             ColorWriter.SpaceWriteLine("DarkGray", " \u2022 " + character.Description);
                         }
                     }
@@ -112,6 +112,7 @@ namespace CorebuildAssignment
                         byte option = 0;
                         if (dataName == "Planet")
                         {
+                            Console.Clear();
                             PlanetDetails();
                         }
                         else
@@ -132,25 +133,25 @@ namespace CorebuildAssignment
                         ColorWriter.SpaceWrite("Yellow", "Black", "1");
                         if (dataName == "Hero" && multiple)
                         {
-                            ColorWriter.WriteLine("Gray", " Add to the Avengers team\n");
+                            ColorWriter.SpaceWriteLine("Gray", "Add to the Avengers team\n");
                         }
                         else
                         {
-                            ColorWriter.WriteLine("Gray", " Confirm selected " + dataName.ToLower() + '\n');
+                            ColorWriter.SpaceWriteLine("Gray", "Confirm selected " + dataName.ToLower() + '\n');
                         }
                         ColorWriter.SpaceWrite("Yellow", "Black", "2");
-                        ColorWriter.WriteLine("Gray", " Go back to the selection menu");
+                        ColorWriter.SpaceWriteLine("Gray", "Go back to the selection menu");
                         if (dataName == "Hero" && multiple)
                         {
                             Console.WriteLine();
                             ColorWriter.SpaceWrite("Yellow", "Black", "3");
-                            ColorWriter.WriteLine("Gray", " Show the Avengers team\n");
+                            ColorWriter.SpaceWriteLine("Gray", "Show the Avengers team\n");
 
                             ColorWriter.SpaceWrite("Yellow", "Black", "4");
-                            ColorWriter.WriteLine("Gray", " Clear the Avengers team\n");
+                            ColorWriter.SpaceWriteLine("Gray", "Clear the Avengers team\n");
 
                             ColorWriter.SpaceWrite("Yellow", "Black", "5");
-                            ColorWriter.WriteLine("Gray", " Confirm Avengers Team");
+                            ColorWriter.SpaceWriteLine("Gray", "Confirm Avengers Team");
 
                         }
                         ColorWriter.Write("Yellow", "\n Select an option: ");
@@ -257,11 +258,10 @@ namespace CorebuildAssignment
         }
         private void PlanetDetails()
         {
-            Console.Clear();
             ColorWriter.SpaceWriteLine("Cyan", planets.Planet[idSelectedPlanet - 1].Name);
-            ColorWriter.WriteLine("DarkGray", " \u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
-            ColorWriter.Write("DarkGray", " \u00BB " + "Villain Attack Modifier: ");
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier > 0)
+            ColorWriter.SpaceWriteLine("DarkGray", "\u2022 " + planets.Planet[idSelectedPlanet - 1].Description);
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Villain Attack Modifier: ");
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier >= 0)
             {
                 ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
             }
@@ -269,8 +269,8 @@ namespace CorebuildAssignment
             {
                 ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.VillainAttackModifier.ToString());
             }
-            ColorWriter.Write("DarkGray", " \u00BB " + "Villain Health Modifier: ");
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier > 0)
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Villain Health Modifier: ");
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier >= 0)
             {
                 ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier.ToString());
             }
@@ -278,8 +278,8 @@ namespace CorebuildAssignment
             {
                 ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.VillainHealthModifier.ToString());
             }
-            ColorWriter.Write("DarkGray", " \u00BB " + "Hero Attack Modifier: ");
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier > 0)
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Hero Attack Modifier: ");
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier >= 0)
             {
                 ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier.ToString());
             }
@@ -287,8 +287,8 @@ namespace CorebuildAssignment
             {
                 ColorWriter.WriteLine("Red", planets.Planet[idSelectedPlanet - 1].Modifiers.HeroAttackModifier.ToString());
             }
-            ColorWriter.Write("DarkGray", " \u00BB " + "Hero Health Modifier: ");
-            if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier > 0)
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Hero Health Modifier: ");
+            if (planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier >= 0)
             {
                 ColorWriter.WriteLine("Green", "+" + planets.Planet[idSelectedPlanet - 1].Modifiers.HeroHealthModifier.ToString());
             }
@@ -316,13 +316,13 @@ namespace CorebuildAssignment
         {
             Console.Clear();
             ColorWriter.SpaceWriteLine("Cyan", characters.Character[idSelectedCharacter - 1].Name);
-            ColorWriter.WriteLine("DarkGray", " \u2022 " + characters.Character[idSelectedCharacter - 1].Description);
-            ColorWriter.Write("DarkGray", " \u00BB " + "Attack points: ");
+            ColorWriter.SpaceWriteLine("DarkGray", "\u2022 " + characters.Character[idSelectedCharacter - 1].Description);
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Attack points: ");
             ColorWriter.Write("Magenta", characters.Character[idSelectedCharacter - 1].Attack.ToString());
-            ColorWriter.WriteLine("Yellow", " (Ap)");
-            ColorWriter.Write("DarkGray", " \u00BB " + "Health points: ");
+            ColorWriter.SpaceWriteLine("Yellow", "(Ap)");
+            ColorWriter.SpaceWrite("Gray", "\u00BB " + "Health points: ");
             ColorWriter.Write("Green", characters.Character[idSelectedCharacter - 1].Health.ToString());
-            ColorWriter.WriteLine("Yellow", " (Hp)");
+            ColorWriter.SpaceWriteLine("Yellow", "(Hp)");
         }
         public void HeroSelector()
         {
@@ -378,7 +378,7 @@ namespace CorebuildAssignment
                     ColorWriter.SpaceWriteLine("Gray", "Villain vs Hero\n");
                     ColorWriter.SpaceWrite("Yellow", "Black", "2");
                     ColorWriter.SpaceWriteLine("Gray", "Villain vs Avengers\n");
-                    ColorWriter.Write("Yellow", " Select an option: ");
+                    ColorWriter.SpaceWrite("Yellow", "Select an option: ");
                     byte option = 0;
                     bool errorGiven = false;
                     try
@@ -427,7 +427,7 @@ namespace CorebuildAssignment
             }
         exit:;
             CharacterDeserializer();
-
+            AvengersRejuvenator();
             Console.Clear();
         }
         private bool AvengersStillAlive()
@@ -446,7 +446,7 @@ namespace CorebuildAssignment
         {
             IdToObject("Character");
             Random random = new Random();
-            byte whoAttacksFirst = (byte)random.Next(2); //generates either a 0 or a 1
+            byte whoAttacksFirst = (byte)random.Next(2); //generates either 0 or 1
             if (option == 1)
             {
                 FightingInitializer(1);
@@ -503,80 +503,89 @@ namespace CorebuildAssignment
         private void CharacterNewStats(Character character)
         {
             ColorWriter.SpaceWriteLine("Cyan", character.Name);
-            ColorWriter.Write("Gray", " \u00BB Attack = " + character.Attack);
+            ColorWriter.SpaceWrite("Gray", "\u00BB Attack = " + character.Attack);
             if (character.IsVillain)
             {
                 character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.VillainAttackModifier);
-                if (fightingPlanet.Modifiers.VillainAttackModifier > 0)
+                if (fightingPlanet.Modifiers.VillainAttackModifier >= 0)
                 {
-                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.VillainAttackModifier);
+                    ColorWriter.Write("Green", "+" + fightingPlanet.Modifiers.VillainAttackModifier);
                 }
                 else
                 {
-                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.VillainAttackModifier.ToString());
+                    ColorWriter.Write("Red", fightingPlanet.Modifiers.VillainAttackModifier.ToString());
                 }
                 ColorWriter.Write("Gray", " = ");
             }
             else
             {
                 character.Attack = (short)(character.Attack + fightingPlanet.Modifiers.HeroAttackModifier);
-                if (fightingPlanet.Modifiers.HeroAttackModifier > 0)
+                if (fightingPlanet.Modifiers.HeroAttackModifier >= 0)
                 {
-                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.HeroAttackModifier);
+                    ColorWriter.Write("Green", "+" + fightingPlanet.Modifiers.HeroAttackModifier);
                 }
                 else
                 {
-                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.HeroAttackModifier.ToString());
+                    ColorWriter.Write("Red", fightingPlanet.Modifiers.HeroAttackModifier.ToString());
                 }
                 ColorWriter.Write("Gray", " = ");
             }
             ColorWriter.Write("Magenta", character.Attack.ToString());
-            ColorWriter.WriteLine("Yellow", " (Ap)");
-            ColorWriter.Write("Gray", " \u00BB Health = " + character.Health);
+            ColorWriter.SpaceWriteLine("Yellow", "(Ap)");
+            ColorWriter.SpaceWrite("Gray", "\u00BB Health = " + character.Health);
             if (character.IsVillain)
             {
                 character.Health = (short)(character.Health + fightingPlanet.Modifiers.VillainHealthModifier);
-                if (fightingPlanet.Modifiers.VillainHealthModifier > 0)
+                if (fightingPlanet.Modifiers.VillainHealthModifier >= 0)
                 {
-                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.VillainHealthModifier);
+                    ColorWriter.Write("Green", "+" + fightingPlanet.Modifiers.VillainHealthModifier);
                 }
                 else
                 {
-                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.VillainHealthModifier.ToString());
+                    ColorWriter.Write("Red", fightingPlanet.Modifiers.VillainHealthModifier.ToString());
                 }
                 ColorWriter.Write("Gray", " = ");
             }
             else
             {
                 character.Health = (short)(character.Health + fightingPlanet.Modifiers.HeroHealthModifier);
-                if (fightingPlanet.Modifiers.HeroHealthModifier > 0)
+                if (fightingPlanet.Modifiers.HeroHealthModifier >= 0)
                 {
-                    ColorWriter.SpaceWrite("Green", "+" + fightingPlanet.Modifiers.HeroHealthModifier);
+                    ColorWriter.Write("Green", "+" + fightingPlanet.Modifiers.HeroHealthModifier);
                 }
                 else
                 {
-                    ColorWriter.SpaceWrite("Red", fightingPlanet.Modifiers.HeroHealthModifier.ToString());
+                    ColorWriter.Write("Red", fightingPlanet.Modifiers.HeroHealthModifier.ToString());
                 }
                 ColorWriter.Write("Gray", " = ");
             }
             ColorWriter.Write("Green", character.Health.ToString());
-            ColorWriter.WriteLine("Yellow", " (Hp)");
+            ColorWriter.SpaceWriteLine("Yellow", "(Hp)");
         }
         private void FightingInitializer(byte option)
         {
             Console.Clear();
+            ColorWriter.SpaceWriteLine("Yellow", "Black", "Selected Planet\n");
+            PlanetDetails();
+            Console.WriteLine();
+            ColorWriter.SpaceWriteLine("Yellow", "Black", "Selected Villain\n");
             CharacterNewStats(fightingVillain);
+            Console.WriteLine();
             if (option == 1)
             {
+                ColorWriter.SpaceWriteLine("Yellow", "Black", "Selected Hero\n");
                 CharacterNewStats(fightingHero);
             }
             else
             {
+                ColorWriter.SpaceWriteLine("Yellow", "Black", "Selected Avengers\n");
                 foreach (Character character in avengersList)
                 {
                     CharacterNewStats(character);
+                    Console.WriteLine();
                 }
             }
+            SpecialMessage.WaitingOnEnterMessage("Press ENTER when you are ready to start the fight!");
             SpecialMessage.CountdownMessage("Starting the battle in", 5);
         }
         private void CharacterVsCharacter(Character avatar1, Character avatar2, bool heroAttacksFirst)
@@ -586,57 +595,77 @@ namespace CorebuildAssignment
             if (!loadingMessageShown)
             {
                 loadingMessageShown = true;
-                SpecialMessage.LoadingMessage("\n Selecting who has the first turn (at random)");
+                SpecialMessage.LoadingMessage("Selecting who has the first turn (at random)");
                 if (heroAttacksFirst)
                 {
-                    ColorWriter.SpaceWriteLine("DarkYellow", "The Hero attacks first!\n");
+                    ColorWriter.SpaceWriteLine("Gray", "The Hero attacks first!\n");
                 }
                 else
                 {
-                    ColorWriter.SpaceWriteLine("DarkYellow", "The Villain attacks first!\n");
+                    ColorWriter.SpaceWriteLine("Gray", "The Villain attacks first!\n");
                 }
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(1000);
             }
             //avatar1 attacks avatar2
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
                 damage = (short)(avatar1.Attack * (random.Next(60, 101) / 100f));
-                ColorWriter.Write("Cyan", " " + avatar1.Name);
-                ColorWriter.Write("Gray", " attacks ");
-                ColorWriter.Write("Yellow", avatar2.Name);
-                ColorWriter.Write("Gray", " and deals ");
-                ColorWriter.Write("Magenta", damage.ToString());
-                ColorWriter.WriteLine("Gray", " points of damage");
+                ColorWriter.SpaceWrite("Cyan", avatar1.Name);
+                ColorWriter.SpaceWrite("Gray", "attacks");
+                ColorWriter.SpaceWrite("Yellow", avatar2.Name);
+                ColorWriter.SpaceWrite("Gray", "and deals");
+                ColorWriter.SpaceWrite("Magenta", damage.ToString());
+                ColorWriter.SpaceWriteLine("Gray", "points of damage");
                 avatar2.Health = (short)(avatar2.Health - damage);
                 ColorWriter.Write("Yellow", "\n " + avatar2.Name);
-                ColorWriter.Write("Gray", " Hp = ");
-                ColorWriter.WriteLine("Green", avatar2.Health + "\n");
+                ColorWriter.SpaceWrite("Gray", "Hp =");
+                if (avatar2.Health > 0)
+                {
+                    ColorWriter.SpaceWriteLine("Green", avatar2.Health + "\n");
+                }
+                else
+                {
+                    ColorWriter.SpaceWriteLine("Red", avatar2.Health + "\n");
+                }
             }
             if (avatar2.Health <= 0)
             {
                 SpecialMessage.DefeatMessage(avatar2.Name + " was defeated!");
             }
-            System.Threading.Thread.Sleep(1000);
+            else
+            {
+                System.Threading.Thread.Sleep(2000);
+            }
             //avatar2 attacks avatar1
             if (avatar2.Health > 0 && avatar1.Health > 0)
             {
                 damage = (short)(avatar2.Attack * (random.Next(60, 101) / 100f));
-                ColorWriter.Write("Yellow", " " + avatar2.Name);
-                ColorWriter.Write("Gray", " attacks ");
-                ColorWriter.Write("Cyan", avatar1.Name);
-                ColorWriter.Write("Gray", " and deals ");
-                ColorWriter.Write("Magenta", damage.ToString());
-                ColorWriter.WriteLine("Gray", " points of damage");
+                ColorWriter.SpaceWrite("Yellow", avatar2.Name);
+                ColorWriter.SpaceWrite("Gray", "attacks");
+                ColorWriter.SpaceWrite("Cyan", avatar1.Name);
+                ColorWriter.SpaceWrite("Gray", "and deals");
+                ColorWriter.SpaceWrite("Magenta", damage.ToString());
+                ColorWriter.SpaceWriteLine("Gray", "points of damage");
                 avatar1.Health = (short)(avatar1.Health - damage);
                 ColorWriter.Write("Cyan", "\n " + avatar1.Name);
-                ColorWriter.Write("Gray", " Hp = ");
-                ColorWriter.WriteLine("Green", avatar1.Health + "\n");
+                ColorWriter.SpaceWrite("Gray", "Hp =");
+                if (avatar1.Health > 0)
+                {
+                    ColorWriter.SpaceWriteLine("Green", avatar1.Health + "\n");
+                }
+                else
+                {
+                    ColorWriter.SpaceWriteLine("Red", avatar1.Health + "\n");
+                }
             }
             if (avatar1.Health <= 0)
             {
                 SpecialMessage.DefeatMessage(avatar1.Name + " was defeated!");
             }
-            System.Threading.Thread.Sleep(1000);
+            else
+            {
+                System.Threading.Thread.Sleep(2000);
+            }
         }
         private void AddHeroToAvengers(byte idHeroToAdd)
         {
@@ -657,15 +686,11 @@ namespace CorebuildAssignment
                         avengersList.Add(character);
                     }
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\nHero added succesfully!");
-                Console.ReadLine();
+                SpecialMessage.SuccessMessage("Hero added succesfully!");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("\nSelected Hero is already part of the Avengers Team!");
-                Console.ReadLine();
+                SpecialMessage.ErrorMessage("Selected Hero is already part of the Avengers Team!");
             }
         }
         private void ShowAvengersTeam()
@@ -673,18 +698,15 @@ namespace CorebuildAssignment
             Console.WriteLine();
             if (!avengersList.Any())
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("There are no Heroes in the Avengers Team!");
+                SpecialMessage.ErrorMessage("There are no Heroes in the Avengers Team!");
             }
             else
             {
                 byte i = 1;
                 foreach (Character character in avengersList)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write(i + ") ");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(character.Name);
+                    ColorWriter.SpaceWrite("Yellow", i.ToString() + ")");
+                    ColorWriter.SpaceWriteLine("Cyan", character.Name);
                     i++;
                 }
             }
@@ -733,6 +755,22 @@ namespace CorebuildAssignment
             {
                 return false;
             }
+        }
+        private void AvengersRejuvenator()
+        {
+            foreach (Character avenger in avengersList)
+            {
+                foreach (Character character in characters.Character)
+                {
+                    if (character.Id == avenger.Id)
+                    {
+                        avenger.Health = character.Health;
+                        avenger.Attack = character.Attack;
+                    }
+                }
+
+            }
+
         }
     }
 }

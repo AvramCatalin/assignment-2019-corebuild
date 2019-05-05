@@ -39,7 +39,7 @@ namespace CorebuildAssignment
         }
         public static void SpaceWrite(string foreground, string text)
         {
-            Write("Black", foreground, text);
+            SpaceWrite("Black", foreground, text);
         }
         public static void SpaceWriteLine(string background, string foreground, string text)
         {
